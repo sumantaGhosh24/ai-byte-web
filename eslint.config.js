@@ -3,7 +3,9 @@ import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
-import {defineConfig, globalIgnores} from "eslint/config";
+import prettier from "eslint-plugin-prettier";
+import eslintConfigPrettier from "eslint-config-prettier";
+import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
   globalIgnores(["dist"]),
@@ -11,15 +13,30 @@ export default defineConfig([
     files: ["**/*.{ts,tsx}"],
     extends: [
       js.configs.recommended,
-      tseslint.configs.recommended,
+      ...tseslint.configs.recommended,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
+      eslintConfigPrettier,
     ],
+    plugins: {
+      prettier,
+    },
     languageOptions: {
       globals: globals.browser,
     },
     rules: {
       "react-refresh/only-export-components": "off",
+      "prettier/prettier": [
+        "error",
+        {
+          semi: true,
+          singleQuote: false,
+          trailingComma: "all",
+          printWidth: 100,
+          tabWidth: 2,
+        },
+      ],
     },
+    ignores: ["dist", "node_modules", "bun.lock"],
   },
 ]);

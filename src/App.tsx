@@ -1,5 +1,5 @@
-import {ModeToggle} from "./components/global/mode-toggle";
-import {Button} from "./components/ui/button";
+import { ModeToggle } from "./components/global/mode-toggle";
+import { Button } from "./components/ui/button";
 
 function App() {
   return (
