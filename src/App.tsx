@@ -1,21 +1,95 @@
-import { ModeToggle } from "./components/global/mode-toggle";
-import { Button } from "./components/ui/button";
+import { Routes, Route } from "react-router-dom";
+
+import LandingLayout from "./layouts/guest-layout";
+import AdminLayout from "./layouts/admin-layout";
+import LandingPage from "./pages/landing";
+import SignInPage from "./pages/sign-in";
+import PublicGuard from "./routes/public-guard";
+import AdminGuard from "./routes/admin-guard";
+import DashboardPage from "./pages/dashboard";
+import UsersPage from "./pages/users";
+import CategoriesPage from "./pages/categories";
+import CreateCategoryPage from "./pages/create-category";
+import UpdateCategoryPage from "./pages/update-category";
+import CategoryDetails from "./pages/category-details";
+import UnauthorizedPage from "./pages/unauthorized";
+import UserGuard from "./routes/user-guard";
+import NotFoundPage from "./pages/not-found";
 
 function App() {
   return (
-    <div className="h-screen w-full flex items-center justify-center">
-      <div className="h-[400px] w-[60%] flex items-center justify-center flex-col gap-10 rounded-md shadow-md dark:shadow-gray-100">
-        <p className="text-3xl font-bold">AIByte Dashboard + Landing Page</p>
-        <Button
-          onClick={() => {
-            throw new Error("This is your first error!");
-          }}
-        >
-          Break the world
-        </Button>
-        <ModeToggle />
-      </div>
-    </div>
+    <Routes>
+      <Route element={<LandingLayout />}>
+        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/sign-in"
+          element={
+            <PublicGuard>
+              <SignInPage />
+            </PublicGuard>
+          }
+        />
+      </Route>
+      <Route element={<AdminLayout />}>
+        <Route
+          path="/dashboard"
+          element={
+            <AdminGuard>
+              <DashboardPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <AdminGuard>
+              <UsersPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/categories"
+          element={
+            <AdminGuard>
+              <CategoriesPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/categories/create"
+          element={
+            <AdminGuard>
+              <CreateCategoryPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/categories/:id/edit"
+          element={
+            <AdminGuard>
+              <UpdateCategoryPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/categories/:id"
+          element={
+            <AdminGuard>
+              <CategoryDetails />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/unauthorized"
+          element={
+            <UserGuard>
+              <UnauthorizedPage />
+            </UserGuard>
+          }
+        />
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }
 

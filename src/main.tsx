@@ -1,12 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import * as Sentry from "@sentry/react";
+import { BrowserRouter } from "react-router-dom";
 
 import "./global.css";
 
 import App from "./App.tsx";
 import { ThemeProvider } from "./components/global/theme-provider.tsx";
-import SentryErrorFallback from "./components/global/sentry-error-fallback.tsx";
+import AppClerkProvider from "./providers/clerk-provider.tsx";
+import AppQueryProvider from "./providers/query-provider";
+import { Toaster } from "./components/ui/sonner";
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,
@@ -28,9 +31,14 @@ Sentry.init({
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Sentry.ErrorBoundary fallback={<SentryErrorFallback />}>
-        <App />
-      </Sentry.ErrorBoundary>
+      <BrowserRouter>
+        <AppClerkProvider>
+          <AppQueryProvider>
+            <App />
+            <Toaster richColors position="top-right" />
+          </AppQueryProvider>
+        </AppClerkProvider>
+      </BrowserRouter>
     </ThemeProvider>
   </StrictMode>,
 );
