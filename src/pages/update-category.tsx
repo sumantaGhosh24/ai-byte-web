@@ -1,5 +1,4 @@
 import { useEffect, useState, type ChangeEvent } from "react";
-import { z } from "zod";
 import { useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +6,7 @@ import { toast } from "sonner";
 import { ImagePlus, Loader2, Upload, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { categorySchema, type CategoryFormValues } from "@/schemas/category.schema";
 import { useCategory, useUpdateCategory } from "@/hooks/use-categories";
 import { useDestroyImage, useUploadImage } from "@/hooks/use-uploads";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,16 +24,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UpdateCategoryFormSkeleton } from "@/components/skeleton/update-category-form-skeleton";
-
-const categorySchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Category name must be at least 2 characters" })
-    .max(100, { message: "Category name must be at most 100 characters" }),
-  visibility: z.enum(["public", "private"]),
-});
-
-type CategoryFormValues = z.infer<typeof categorySchema>;
 
 const UpdateCategoryPage = () => {
   const { id } = useParams();

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { useDestroyImage } from "@/hooks/use-uploads";
 import { useAdminCategories, useDeleteCategory } from "@/hooks/use-categories";
-import type { CategoryItem } from "@/types/categories";
+import type { CategoryItem } from "@/types/category.type";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

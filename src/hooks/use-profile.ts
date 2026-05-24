@@ -2,7 +2,7 @@ import { useAuth } from "@clerk/react";
 import { useQuery } from "@tanstack/react-query";
 import type { AxiosResponse } from "axios";
 
-import type { ProfileResponse, UserResponse } from "@/types/profile";
+import type { ProfileResponse, UserResponse } from "@/types/profile.type";
 
 import { useApi } from "./use-api";
 

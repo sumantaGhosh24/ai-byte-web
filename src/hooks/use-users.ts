@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import type { AxiosResponse } from "axios";
 
 import { queryClient } from "@/providers/query-provider";
-import type { UsersResponse } from "@/types/user";
+import type { UsersResponse } from "@/types/user.type";
 
 import { useApi } from "./use-api";
 

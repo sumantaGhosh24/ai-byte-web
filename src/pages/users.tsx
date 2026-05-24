@@ -4,7 +4,7 @@ import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tan
 import { ChevronLeft, ChevronRight, Eye, Search, Shield, User } from "lucide-react";
 
 import { useUsers } from "@/hooks/use-users";
-import type { UserItem } from "@/types/user";
+import type { UserItem } from "@/types/user.type";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

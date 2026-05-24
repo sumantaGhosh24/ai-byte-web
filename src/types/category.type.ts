@@ -1,4 +1,6 @@
-import type { Pagination } from "./user";
+import type { Pagination } from "./user.type";
+
+type Visibility = "public" | "private";
 
 export interface UseAdminCategoriesParams {
   page?: number;
@@ -10,13 +12,13 @@ export interface CreateCategoryPayload {
   name: string;
   imageUrl: string;
   imagePublicId: string;
-  visibility?: "public" | "private";
+  visibility?: Visibility;
 }
 
 export interface UpdateCategoryPayload {
   id: string;
   name: string;
-  visibility?: "public" | "private";
+  visibility?: Visibility;
   imageUrl?: string;
   imagePublicId?: string;
 }
@@ -30,7 +32,7 @@ export interface CategoryItem {
   name: string;
   imageUrl: string;
   imagePublicId: string;
-  visibility: "public" | "private";
+  visibility: Visibility;
   createdAt: string;
   updatedAt: string;
 }

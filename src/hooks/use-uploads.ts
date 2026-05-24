@@ -1,8 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
+import type { AxiosResponse } from "axios";
+
+import type { ImageUploadResponse } from "@/types/upload.type";
 
 import { useApi } from "./use-api";
-import type { ImageUploadResponse } from "@/types/upload";
-import type { AxiosResponse } from "axios";
 
 export function useUploadImage() {
   const api = useApi();

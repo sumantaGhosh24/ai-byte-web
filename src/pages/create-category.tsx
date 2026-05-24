@@ -1,11 +1,11 @@
 import { useState, type ChangeEvent } from "react";
-import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { ImagePlus, Loader2, Upload, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { categorySchema, type CategoryFormValues } from "@/schemas/category.schema";
 import { useCreateCategory } from "@/hooks/use-categories";
 import { useUploadImage } from "@/hooks/use-uploads";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,16 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const categorySchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Category name must be at least 2 characters" })
-    .max(100, { message: "Category name must be at most 100 characters" }),
-  visibility: z.enum(["public", "private"]),
-});
-
-type CategoryFormValues = z.infer<typeof categorySchema>;
 
 const CreateCategoryPage = () => {
   const [preview, setPreview] = useState<string | null>(null);

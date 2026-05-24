@@ -11,7 +11,7 @@ import type {
   UpdateCategoryPayload,
   UseAdminCategoriesParams,
   AllCategoriesResponse,
-} from "@/types/categories";
+} from "@/types/category.type";
 
 import { useApi } from "./use-api";
 
