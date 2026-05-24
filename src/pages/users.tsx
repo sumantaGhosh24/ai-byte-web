@@ -44,7 +44,7 @@ const UsersPage = () => {
     return () => clearTimeout(timer);
   }, [searchInput]);
 
-  const { data, isLoading, isFetching } = useUsers({ page, limit, search });
+  const { data, isLoading, isFetching, refetch } = useUsers({ page, limit, search });
 
   const columns = useMemo<ColumnDef<UserItem>[]>(
     () => [
@@ -142,11 +142,16 @@ const UsersPage = () => {
   return (
     <div className="space-y-6 p-4 sm:p-6 container mx-auto">
       <div className="flex flex-col gap-4">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Users</h1>
-          <p className="text-sm text-muted-foreground sm:text-base">
-            Manage platform users and analytics.
-          </p>
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Users</h1>
+            <p className="text-sm text-muted-foreground sm:text-base">
+              Manage platform users and analytics.
+            </p>
+          </div>
+          <Button onClick={() => refetch()} disabled={isLoading || isFetching}>
+            Refresh
+          </Button>
         </div>
         <div className="relative w-full">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

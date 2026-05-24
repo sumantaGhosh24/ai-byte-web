@@ -11,7 +11,6 @@ import UsersPage from "./pages/users";
 import CategoriesPage from "./pages/categories";
 import CreateCategoryPage from "./pages/create-category";
 import UpdateCategoryPage from "./pages/update-category";
-import CategoryDetails from "./pages/category-details";
 import UnauthorizedPage from "./pages/unauthorized";
 import UserGuard from "./routes/user-guard";
 import NotFoundPage from "./pages/not-found";
@@ -77,14 +76,6 @@ function App() {
           element={
             <AdminGuard>
               <UpdateCategoryPage />
-            </AdminGuard>
-          }
-        />
-        <Route
-          path="/categories/:id"
-          element={
-            <AdminGuard>
-              <CategoryDetails />
             </AdminGuard>
           }
         />
