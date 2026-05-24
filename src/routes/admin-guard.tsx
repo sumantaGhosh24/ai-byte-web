@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@clerk/react";
 
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from "@/hooks/use-profile";
 import FullPageLoader from "@/components/global/full-page-loader";
 
 interface Props {

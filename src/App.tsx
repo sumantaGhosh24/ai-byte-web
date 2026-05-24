@@ -15,6 +15,7 @@ import CategoryDetails from "./pages/category-details";
 import UnauthorizedPage from "./pages/unauthorized";
 import UserGuard from "./routes/user-guard";
 import NotFoundPage from "./pages/not-found";
+import ProfileDetails from "./pages/profile-details";
 
 function App() {
   return (
@@ -44,6 +45,14 @@ function App() {
           element={
             <AdminGuard>
               <UsersPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/profile/:id"
+          element={
+            <AdminGuard>
+              <ProfileDetails />
             </AdminGuard>
           }
         />

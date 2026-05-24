@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@clerk/react";
 import { LayoutDashboard, Tags, Users } from "lucide-react";
 
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from "@/hooks/use-profile";
 
 import { Skeleton } from "../ui/skeleton";
 import {

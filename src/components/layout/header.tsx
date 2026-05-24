@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useAuth } from "@clerk/react";
 import { MenuIcon, XIcon } from "lucide-react";
 
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { useLogout } from "@/hooks/use-logout";
+import { useLogout } from "@/hooks/use-users";
+import { useCurrentUser } from "@/hooks/use-profile";
 
 import { ModeToggle } from "../global/mode-toggle";
 import { Skeleton } from "../ui/skeleton";

@@ -6,7 +6,7 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { useLogout } from "@/hooks/use-logout";
+import { useLogout } from "@/hooks/use-users";
 
 const UnauthorizedPage = () => {
   const { logout } = useLogout();
