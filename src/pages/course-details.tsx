@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { AlertTriangle, Book, Star, User } from "lucide-react";
+import { AlertTriangle, Book, Star } from "lucide-react";
 
 import { useCourse } from "@/hooks/use-courses";
 import StatsCard from "@/components/card/stats-card";
@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import CourseEnrollsTable from "@/components/tables/course-enrolls-table";
 
 const CourseDetailsPage = () => {
   const { id } = useParams();
@@ -101,18 +102,7 @@ const CourseDetailsPage = () => {
           <TabsTrigger value="questions">Questions</TabsTrigger>
         </TabsList>
         <TabsContent value="enrolls" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="h-5 w-5" />
-                Course Enrolls
-              </CardTitle>
-              <CardDescription>Course Enrolls</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div></div>
-            </CardContent>
-          </Card>
+          <CourseEnrollsTable />
         </TabsContent>
         <TabsContent value="reviews" className="space-y-6">
           <Card>
