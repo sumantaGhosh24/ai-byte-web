@@ -48,7 +48,6 @@ export interface EnrollsResponse {
 export interface UseEnrollsParams {
   page?: number;
   limit?: number;
-  search?: string;
   courseId?: string;
   userId?: string;
   completed?: boolean;

@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import CourseEnrollsTable from "@/components/tables/course-enrolls-table";
+import CourseBookmarksTable from "@/components/tables/course-bookmarks-table";
 
 const CourseDetailsPage = () => {
   const { id } = useParams();
@@ -95,14 +96,18 @@ const CourseDetailsPage = () => {
         </CardContent>
       </Card>
       <Tabs defaultValue="enrolls" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 lg:w-[400px]">
+        <TabsList className="grid w-full grid-cols-5 lg:w-[400px]">
           <TabsTrigger value="enrolls">Enrolls</TabsTrigger>
+          <TabsTrigger value="bookmarks">Bookmarks</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
           <TabsTrigger value="lessons">Lessons</TabsTrigger>
           <TabsTrigger value="questions">Questions</TabsTrigger>
         </TabsList>
         <TabsContent value="enrolls" className="space-y-6">
           <CourseEnrollsTable />
+        </TabsContent>
+        <TabsContent value="bookmarks" className="space-y-6">
+          <CourseBookmarksTable />
         </TabsContent>
         <TabsContent value="reviews" className="space-y-6">
           <Card>

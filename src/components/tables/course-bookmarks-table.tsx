@@ -3,11 +3,10 @@ import { useParams } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { AlertTriangle, ChevronLeft, ChevronRight } from "lucide-react";
 
-import { useEnrolls } from "@/hooks/use-enrolls";
-import type { EnrollItem } from "@/types/enroll.type";
+import { useBookmarks } from "@/hooks/use-bookmarks";
+import type { BookmarkItem } from "@/types/bookmark.type";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Badge } from "../ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
@@ -16,42 +15,41 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import StatsCardSkeleton from "../skeleton/stats-card-skeleton";
 import StatsCard from "../card/stats-card";
-import { EnrollTableRowSkeleton } from "../skeleton/enroll-table-row-skeleton";
+import { BookmarksTableRowSkeleton } from "../skeleton/bookmark-table-row-skeleton";
 
-const CourseEnrollsTable = () => {
+const CourseBookmarksTable = () => {
   const { id } = useParams();
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  const [completed, setCompleted] = useState("all");
   const [userId, setUserId] = useState("");
 
-  const { data, isLoading, isFetching, refetch, isError, error } = useEnrolls({
+  const { data, isLoading, isFetching, refetch, isError, error } = useBookmarks({
+    courseId: id,
     page,
     limit,
-    courseId: id,
-    completed: completed === "all" ? null : completed === "true" ? true : false,
     userId,
   });
 
-  const columns = useMemo<ColumnDef<EnrollItem>[]>(
+  const columns = useMemo<ColumnDef<BookmarkItem>[]>(
     () => [
       {
         accessorKey: "user",
-        header: "Student",
+        header: "User",
+
         cell: ({ row }) => {
           const user = row.original.user;
 
           return (
             <div className="flex items-center gap-3">
               <Avatar>
-                <AvatarImage src={user.profile.avatarUrl ?? ""} />
-                <AvatarFallback>{user.profile.name?.charAt(0)}</AvatarFallback>
+                <AvatarImage src={user.profile?.avatarUrl || undefined} />
+                <AvatarFallback>{user.profile?.name?.charAt(0) || "U"}</AvatarFallback>
               </Avatar>
               <div>
-                <p className="font-medium">{user.profile.name}</p>
-                <p className="text-xs text-muted-foreground">@{user.profile.username}</p>
+                <p className="font-medium">{user.profile?.name || "Unnamed User"}</p>
+                <p className="text-xs text-muted-foreground">@{user.profile?.username}</p>
               </div>
             </div>
           );
@@ -63,32 +61,14 @@ const CourseEnrollsTable = () => {
         cell: ({ row }) => row.original.user.email,
       },
       {
-        accessorKey: "finishedLessons",
-        header: "Finished Lessons",
-        cell: ({ row }) => <Badge variant="secondary">{row.original.finishedLessons}</Badge>,
+        accessorKey: "category",
+        header: "Category",
+        cell: ({ row }) => row.original.course.category.name,
       },
       {
-        accessorKey: "completed",
-        header: "Status",
-        cell: ({ row }) => {
-          const completed = row.original.completed;
-
-          return (
-            <Badge variant={completed ? "default" : "secondary"}>
-              {completed ? "Completed" : "Learning"}
-            </Badge>
-          );
-        },
-      },
-      {
-        accessorKey: "startedAt",
-        header: "Started",
-        cell: ({ row }) => new Date(row.original.startedAt).toLocaleDateString(),
-      },
-      {
-        accessorKey: "finishedAt",
-        header: "Finished",
-        cell: ({ row }) => new Date(row.original.finishedAt).toLocaleDateString(),
+        accessorKey: "createdAt",
+        header: "Bookmarked",
+        cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
       },
     ],
     [],
@@ -116,45 +96,35 @@ const CourseEnrollsTable = () => {
       <div className="flex flex-col gap-4">
         <CardHeader className="flex items-center justify-between">
           <div className="space-y-1">
-            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">Enrolls</CardTitle>
+            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
+              Bookmarks
+            </CardTitle>
             <CardDescription className="text-sm text-muted-foreground sm:text-base">
-              Manage all enrolls of this course.
+              Manage all bookmarks of this course.
             </CardDescription>
           </div>
           <Button variant="warning" onClick={() => refetch()} disabled={isLoading || isFetching}>
             Refresh
           </Button>
         </CardHeader>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <Input
-            placeholder="Search user..."
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-          />
-          <Select value={completed} onValueChange={(value) => setCompleted(value)}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select enroll completed status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="true">Completed</SelectItem>
-              <SelectItem value="false">Not Completed</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <Input
+          placeholder="Search user..."
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+        />
       </div>
       <div className="grid gap-4 grid-cols-1">
         {isLoading || isFetching ? (
           [...Array(1)].map((_, i) => <StatsCardSkeleton key={i} />)
         ) : (
           <>
-            <StatsCard title="Total Enrolls" value={data?.result?.paginations?.total} />
+            <StatsCard title="Total Bookmarks" value={data?.result?.paginations?.total} />
           </>
         )}
       </div>
       <Card>
         <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <CardTitle>All Enrolls</CardTitle>
+          <CardTitle>All Bookmarks</CardTitle>
           <Select
             value={String(limit)}
             onValueChange={(value) => {
@@ -188,7 +158,7 @@ const CourseEnrollsTable = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <EnrollTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <BookmarksTableRowSkeleton key={i} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>
@@ -202,7 +172,7 @@ const CourseEnrollsTable = () => {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={columns.length} className="h-24 text-center">
-                      No enrolls found.
+                      No bookmarks found.
                     </TableCell>
                   </TableRow>
                 )}
@@ -242,4 +212,4 @@ const CourseEnrollsTable = () => {
   );
 };
 
-export default CourseEnrollsTable;
+export default CourseBookmarksTable;
