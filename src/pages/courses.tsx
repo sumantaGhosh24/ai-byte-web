@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { useDestroyImage } from "@/hooks/use-uploads";
 import { useCourses, useDeleteCourse } from "@/hooks/use-courses";
+import { useCategories } from "@/hooks/use-categories";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,15 +26,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
+import StatsCardSkeleton from "@/components/skeleton/stats-card-skeleton";
+import StatsCard from "@/components/card/stats-card";
+import { CourseTableRowSkeleton } from "@/components/skeleton/course-table-row-skeleton";
 import type {
   CourseDifficulty,
   CourseItem,
   CourseStatus,
   CourseVisibility,
 } from "@/types/course.type";
-import StatsCardSkeleton from "@/components/skeleton/stats-card-skeleton";
-import StatsCard from "@/components/card/stats-card";
-import { CourseTableRowSkeleton } from "@/components/skeleton/course-table-row-skeleton";
 
 const CoursesPage = () => {
   const [page, setPage] = useState(1);
@@ -45,6 +47,13 @@ const CoursesPage = () => {
   const [difficulty, setDifficulty] = useState<CourseDifficulty | "all">("all");
   const [visibility, setVisibility] = useState<CourseVisibility | "all">("all");
   const [status, setStatus] = useState<CourseStatus | "all">("all");
+  const [categoryId, setCategoryId] = useState<string>("all");
+
+  const {
+    data: categories,
+    isFetching: isCategoriesFetching,
+    isLoading: isCategoriesLoading,
+  } = useCategories();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -62,6 +71,7 @@ const CoursesPage = () => {
     difficulty: difficulty === "all" ? null : difficulty,
     visibility: visibility === "all" ? null : visibility,
     status: status === "all" ? null : status,
+    categoryId: categoryId === "all" ? null : categoryId,
   });
 
   const deleteCourse = useDeleteCourse();
@@ -281,12 +291,29 @@ const CoursesPage = () => {
             </Button>
           </div>
         </div>
+        <Input
+          placeholder="Search courses..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+        />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <Input
-            placeholder="Search courses..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
+          {isCategoriesFetching || isCategoriesLoading ? (
+            <Skeleton className="w-full h-[30px]" />
+          ) : (
+            <Select value={categoryId} onValueChange={(value) => setCategoryId(value)}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select courses category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                {categories.categories.map((category) => (
+                  <SelectItem value={category.id} key={category.id}>
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
           <Select
             value={difficulty}
             onValueChange={(value: CourseDifficulty) => setDifficulty(value)}

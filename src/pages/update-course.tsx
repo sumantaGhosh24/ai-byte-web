@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { ImagePlus, Loader2, Upload, X } from "lucide-react";
+import { AlertTriangle, ImagePlus, Loader2, Upload, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { courseSchema, type CourseFormValues } from "@/schemas/course.schema";
@@ -26,11 +26,18 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CourseFormSkeleton } from "@/components/skeleton/course-form-skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const UpdateCoursePage = () => {
   const { id } = useParams();
 
-  const { data: course, isFetching: isCourseFetching, isLoading: isCourseLoading } = useCourse(id);
+  const {
+    data: course,
+    isFetching: isCourseFetching,
+    isLoading: isCourseLoading,
+    isError,
+    error,
+  } = useCourse(id);
 
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -134,6 +141,16 @@ const UpdateCoursePage = () => {
 
   if (isLoading || isFetching || isCourseFetching || isCourseLoading) {
     return <CourseFormSkeleton />;
+  }
+
+  if (isError) {
+    return (
+      <Alert>
+        <AlertTriangle />
+        <AlertTitle>Something went wrong!</AlertTitle>
+        <AlertDescription>{error.message}</AlertDescription>
+      </Alert>
+    );
   }
 
   return (

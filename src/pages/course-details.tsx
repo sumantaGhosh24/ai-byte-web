@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Book, Star, User } from "lucide-react";
+import { AlertTriangle, Book, Star, User } from "lucide-react";
 
 import { useCourse } from "@/hooks/use-courses";
 import StatsCard from "@/components/card/stats-card";
@@ -7,16 +7,27 @@ import { CourseDetailsSkeleton } from "@/components/skeleton/course-details-skel
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const CourseDetailsPage = () => {
   const { id } = useParams();
 
-  const { data, isLoading, isFetching } = useCourse(id);
+  const { data, isLoading, isFetching, isError, error } = useCourse(id);
 
   const course = data?.course;
 
   if (isLoading || isFetching) {
     return <CourseDetailsSkeleton />;
+  }
+
+  if (isError) {
+    return (
+      <Alert>
+        <AlertTriangle />
+        <AlertTitle>Something went wrong!</AlertTitle>
+        <AlertDescription>{error.message}</AlertDescription>
+      </Alert>
+    );
   }
 
   return (

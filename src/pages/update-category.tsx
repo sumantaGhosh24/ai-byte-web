@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { ImagePlus, Loader2, Upload, X } from "lucide-react";
+import { AlertTriangle, ImagePlus, Loader2, Upload, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { categorySchema, type CategoryFormValues } from "@/schemas/category.schema";
@@ -24,11 +24,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UpdateCategoryFormSkeleton } from "@/components/skeleton/update-category-form-skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const UpdateCategoryPage = () => {
   const { id } = useParams();
 
-  const { data, isFetching, isLoading } = useCategory(id);
+  const { data, isFetching, isLoading, isError, error } = useCategory(id);
 
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -122,6 +123,16 @@ const UpdateCategoryPage = () => {
 
   if (isFetching || isLoading) {
     return <UpdateCategoryFormSkeleton />;
+  }
+
+  if (isError) {
+    return (
+      <Alert>
+        <AlertTriangle />
+        <AlertTitle>Something went wrong!</AlertTitle>
+        <AlertDescription>{error.message}</AlertDescription>
+      </Alert>
+    );
   }
 
   return (

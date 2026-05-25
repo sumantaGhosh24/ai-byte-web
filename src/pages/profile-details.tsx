@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import {
+  AlertTriangle,
   Award,
   Bell,
   Bookmark,
@@ -22,11 +23,12 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const ProfileDetails = () => {
   const { id } = useParams();
 
-  const { data, isLoading, isFetching } = useUser(id);
+  const { data, isLoading, isFetching, isError, error } = useUser(id);
 
   const userData = data?.user;
 
@@ -112,6 +114,16 @@ const ProfileDetails = () => {
 
   if (isLoading || isFetching) {
     return <ProfileSkeleton />;
+  }
+
+  if (isError) {
+    return (
+      <Alert>
+        <AlertTriangle />
+        <AlertTitle>Something went wrong!</AlertTitle>
+        <AlertDescription>{error.message}</AlertDescription>
+      </Alert>
+    );
   }
 
   return (
