@@ -2,19 +2,26 @@ import { Routes, Route } from "react-router-dom";
 
 import LandingLayout from "./layouts/guest-layout";
 import AdminLayout from "./layouts/admin-layout";
-import LandingPage from "./pages/landing";
-import SignInPage from "./pages/sign-in";
 import PublicGuard from "./routes/public-guard";
 import AdminGuard from "./routes/admin-guard";
-import DashboardPage from "./pages/dashboard";
-import UsersPage from "./pages/users";
-import CategoriesPage from "./pages/categories";
-import CreateCategoryPage from "./pages/create-category";
-import UpdateCategoryPage from "./pages/update-category";
-import UnauthorizedPage from "./pages/unauthorized";
 import UserGuard from "./routes/user-guard";
-import NotFoundPage from "./pages/not-found";
-import ProfileDetails from "./pages/profile-details";
+import {
+  CategoriesPage,
+  CourseDetailsPage,
+  CoursesPage,
+  CreateCategoryPage,
+  CreateCoursePage,
+  DashboardPage,
+  GenerateAICoursePage,
+  LandingPage,
+  NotFoundPage,
+  ProfileDetails,
+  SignInPage,
+  UnauthorizedPage,
+  UpdateCategoryPage,
+  UpdateCoursePage,
+  UsersPage,
+} from "./pages";
 
 function App() {
   return (
@@ -76,6 +83,46 @@ function App() {
           element={
             <AdminGuard>
               <UpdateCategoryPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/courses"
+          element={
+            <AdminGuard>
+              <CoursesPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/courses/create"
+          element={
+            <AdminGuard>
+              <CreateCoursePage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/courses/generate"
+          element={
+            <AdminGuard>
+              <GenerateAICoursePage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/courses/:id/edit"
+          element={
+            <AdminGuard>
+              <UpdateCoursePage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/course/:id"
+          element={
+            <AdminGuard>
+              <CourseDetailsPage />
             </AdminGuard>
           }
         />

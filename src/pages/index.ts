@@ -1,0 +1,15 @@
+export { default as LandingPage } from "./landing";
+export { default as SignInPage } from "./sign-in";
+export { default as DashboardPage } from "./dashboard";
+export { default as UsersPage } from "./users";
+export { default as CategoriesPage } from "./categories";
+export { default as CreateCategoryPage } from "./create-category";
+export { default as UpdateCategoryPage } from "./update-category";
+export { default as UnauthorizedPage } from "./unauthorized";
+export { default as NotFoundPage } from "./not-found";
+export { default as ProfileDetails } from "./profile-details";
+export { default as CoursesPage } from "./courses";
+export { default as CreateCoursePage } from "./create-course";
+export { default as GenerateAICoursePage } from "./generate-ai-course";
+export { default as UpdateCoursePage } from "./update-course";
+export { default as CourseDetailsPage } from "./course-details";

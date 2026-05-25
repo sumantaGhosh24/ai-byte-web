@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight, Eye, Search, Shield, Trash } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pen, Search, Trash } from "lucide-react";
 import { toast } from "sonner";
 
 import { useDestroyImage } from "@/hooks/use-uploads";
@@ -87,19 +87,13 @@ const CategoriesPage = () => {
           const visibility = row.original.visibility;
 
           return (
-            <Badge
-              variant={visibility === "public" ? "default" : "destructive"}
-              className="capitalize"
-            >
-              {visibility === "private" && <Shield className="mr-1 h-3 w-3" />}
-              {visibility}
-            </Badge>
+            <Badge variant={visibility === "public" ? "default" : "warning"}>{visibility}</Badge>
           );
         },
       },
       {
         accessorKey: "createdAt",
-        header: "Joined",
+        header: "Created At",
         cell: ({ row }) => {
           return new Date(row.original.createdAt).toLocaleDateString();
         },
@@ -132,9 +126,9 @@ const CategoriesPage = () => {
 
           return (
             <div className="flex gap-4">
-              <Button size="sm" asChild>
+              <Button variant="success" size="sm" asChild>
                 <Link to={`/categories/${category.id}/edit`}>
-                  <Eye className="mr-2 h-4 w-4" />
+                  <Pen className="mr-2 h-4 w-4" />
                   Update
                 </Link>
               </Button>
@@ -171,7 +165,7 @@ const CategoriesPage = () => {
             <Button asChild disabled={isLoading || isFetching}>
               <Link to="/categories/create">Create Category</Link>
             </Button>
-            <Button onClick={() => refetch()} disabled={isLoading || isFetching}>
+            <Button variant="warning" onClick={() => refetch()} disabled={isLoading || isFetching}>
               Refresh
             </Button>
           </div>

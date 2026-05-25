@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@clerk/react";
-import { LayoutDashboard, Tags, Users } from "lucide-react";
+import { Book, LayoutDashboard, Tags, Users } from "lucide-react";
 
 import { useCurrentUser } from "@/hooks/use-profile";
 
@@ -25,14 +25,19 @@ const navItems = [
     icon: LayoutDashboard,
   },
   {
+    label: "Users",
+    href: "/users",
+    icon: Users,
+  },
+  {
     label: "Categories",
     href: "/categories",
     icon: Tags,
   },
   {
-    label: "Users",
-    href: "/users",
-    icon: Users,
+    label: "Courses",
+    href: "/courses",
+    icon: Book,
   },
 ];
 
@@ -42,7 +47,7 @@ const AppSidebar = () => {
   const { data, isLoading } = useCurrentUser();
 
   if (!isLoaded || isLoading) {
-    return <Skeleton className="w-full h-20" />;
+    return <Skeleton className="w-[200px] h-20" />;
   }
 
   return (

@@ -5,8 +5,9 @@ import { toast } from "sonner";
 import { ImagePlus, Loader2, Upload, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { categorySchema, type CategoryFormValues } from "@/schemas/category.schema";
-import { useCreateCategory } from "@/hooks/use-categories";
+import { generateAICourseSchema, type GenerateAICourseFormValues } from "@/schemas/course.schema";
+import { useCategories } from "@/hooks/use-categories";
+import { useGenerateAICourse } from "@/hooks/use-courses";
 import { useUploadImage } from "@/hooks/use-uploads";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -22,22 +23,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { CourseFormSkeleton } from "@/components/skeleton/course-form-skeleton";
 
-const CreateCategoryPage = () => {
+const GenerateAICoursePage = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
-  const form = useForm<CategoryFormValues>({
-    resolver: zodResolver(categorySchema),
+  const form = useForm<GenerateAICourseFormValues>({
+    resolver: zodResolver(generateAICourseSchema),
     defaultValues: {
-      name: "",
-      visibility: "private",
+      topic: "",
+      difficulty: "beginner",
+      lessonCount: "",
+      categoryId: "",
     },
   });
 
-  const createCategory = useCreateCategory();
+  const { data: categories, isFetching, isLoading } = useCategories();
 
   const uploadImage = useUploadImage();
+
+  const generateCourse = useGenerateAICourse();
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -56,25 +63,25 @@ const CreateCategoryPage = () => {
     setPreview(null);
   };
 
-  const onSubmit = (values: CategoryFormValues) => {
-    if (!file) return toast.error("Please select a image first");
+  const onSubmit = (values: GenerateAICourseFormValues) => {
+    if (!file) return toast.error("Please upload thumbnail");
 
     uploadImage.mutate(file, {
       onError: (error) => toast.error(error.message),
-      onSuccess: (data) => {
-        createCategory.mutate(
+      onSuccess: (res) => {
+        generateCourse.mutate(
           {
-            name: values.name,
-            imageUrl: data?.file?.url,
-            imagePublicId: data?.file?.public_id,
-            visibility: values.visibility,
+            ...values,
+            thumbnailUrl: res.file.url,
+            thumbnailPublicId: res.file.public_id,
+            lessonCount: Number(values.lessonCount),
           },
           {
             onError: (error) => toast.error(error.message),
             onSuccess: (data) => {
               form.reset();
-              setFile(null);
               setPreview(null);
+              setFile(null);
               toast.success(data.message);
             },
           },
@@ -83,38 +90,23 @@ const CreateCategoryPage = () => {
     });
   };
 
+  if (isLoading || isFetching) {
+    return <CourseFormSkeleton />;
+  }
+
   return (
     <div className="mx-auto max-w-3xl">
       <Card className="border-border/50 shadow-sm">
         <CardHeader className="space-y-3">
-          <CardTitle className="text-2xl font-bold">Create Category</CardTitle>
-          <CardDescription className="mt-1">
-            Add a new category with image and visibility settings.
-          </CardDescription>
+          <CardTitle className="text-2xl font-bold">Generate AI Course</CardTitle>
+          <CardDescription className="mt-1">Generate a course using AI.</CardDescription>
         </CardHeader>
         <Separator />
         <CardContent className="pt-6">
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FieldGroup>
-              <Controller
-                control={form.control}
-                name="name"
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Category Name</FieldLabel>
-                    <Input
-                      type="text"
-                      placeholder="Enter name"
-                      id={field.name}
-                      aria-invalid={fieldState.invalid}
-                      {...field}
-                    />
-                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                  </Field>
-                )}
-              />
               <div>
-                <Label className="mb-3">Category Image</Label>
+                <Label className="mb-3">Course Thumbnail</Label>
                 <div className="space-y-4">
                   {!preview ? (
                     <Label
@@ -129,7 +121,7 @@ const CreateCategoryPage = () => {
                           <ImagePlus className="size-8 text-muted-foreground" />
                         </div>
                         <div>
-                          <p className="font-medium">Upload category image</p>
+                          <p className="font-medium">Upload course thumbnail</p>
                           <p className="mt-1 text-sm text-muted-foreground">
                             PNG, JPG, WEBP up to 5MB
                           </p>
@@ -166,18 +158,78 @@ const CreateCategoryPage = () => {
               </div>
               <Controller
                 control={form.control}
-                name="visibility"
+                name="topic"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Category Visibility</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>Course Topic</FieldLabel>
+                    <Textarea
+                      id={field.name}
+                      placeholder="Enter course topic"
+                      aria-invalid={fieldState.invalid}
+                      {...field}
+                    />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
+              <Controller
+                control={form.control}
+                name="lessonCount"
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Course Number Lessons</FieldLabel>
+                    <Input
+                      type="number"
+                      placeholder="Enter course lessons count"
+                      min={1}
+                      max={50}
+                      id={field.name}
+                      aria-invalid={fieldState.invalid}
+                      {...field}
+                    />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
+              <Controller
+                control={form.control}
+                name="categoryId"
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Course Category</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select category visibility" />
+                        <SelectValue placeholder="Select course category" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectItem value="public">Public</SelectItem>
-                          <SelectItem value="private">Private</SelectItem>
+                          {categories.categories.map((category) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
+              <Controller
+                control={form.control}
+                name="difficulty"
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Course Difficulty</FieldLabel>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select course difficulty" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="beginner">Beginner</SelectItem>
+                          <SelectItem value="intermediate">Intermediate</SelectItem>
+                          <SelectItem value="expert">Expert</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -187,16 +239,16 @@ const CreateCategoryPage = () => {
               />
               <Button
                 type="submit"
-                disabled={createCategory.isPending || uploadImage.isPending}
+                disabled={generateCourse.isPending || uploadImage.isPending}
                 className="min-w-[160px]"
               >
-                {createCategory.isPending || uploadImage.isPending ? (
+                {generateCourse.isPending || uploadImage.isPending ? (
                   <>
                     <Loader2 className="mr-2 size-4 animate-spin" />
-                    Creating...
+                    Generating...
                   </>
                 ) : (
-                  "Create Category"
+                  "Generate Course"
                 )}
               </Button>
             </FieldGroup>
@@ -207,4 +259,4 @@ const CreateCategoryPage = () => {
   );
 };
 
-export default CreateCategoryPage;
+export default GenerateAICoursePage;

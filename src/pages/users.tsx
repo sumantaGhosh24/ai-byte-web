@@ -79,7 +79,7 @@ const UsersPage = () => {
           const role = row.original.role;
 
           return (
-            <Badge variant={role === "admin" ? "default" : "secondary"} className="capitalize">
+            <Badge variant={role === "admin" ? "success" : "default"} className="capitalize">
               {role === "admin" && <Shield className="mr-1 h-3 w-3" />}
               {role}
             </Badge>
@@ -149,7 +149,7 @@ const UsersPage = () => {
               Manage platform users and analytics.
             </p>
           </div>
-          <Button onClick={() => refetch()} disabled={isLoading || isFetching}>
+          <Button variant="warning" onClick={() => refetch()} disabled={isLoading || isFetching}>
             Refresh
           </Button>
         </div>
