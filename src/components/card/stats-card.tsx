@@ -3,7 +3,7 @@ import { Skeleton } from "../ui/skeleton";
 
 interface StatsCardProps {
   title: string;
-  value?: number;
+  value?: number | string;
   loading?: boolean;
 }
 
