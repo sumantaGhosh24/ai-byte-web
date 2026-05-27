@@ -4,7 +4,7 @@ import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tan
 import { ChevronLeft, ChevronRight, Pen, Search, Trash } from "lucide-react";
 import { toast } from "sonner";
 
-import { useDestroyImage } from "@/hooks/use-uploads";
+import { useDestroyFile } from "@/hooks/use-uploads";
 import { useAdminCategories, useDeleteCategory } from "@/hooks/use-categories";
 import type { CategoryItem } from "@/types/category.type";
 import { Badge } from "@/components/ui/badge";
@@ -50,7 +50,7 @@ const CategoriesPage = () => {
 
   const deleteCategory = useDeleteCategory();
 
-  const deleteImage = useDestroyImage();
+  const deleteImage = useDestroyFile();
 
   const columns = useMemo<ColumnDef<CategoryItem>[]>(
     () => [

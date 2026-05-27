@@ -12,16 +12,40 @@ export function useUploadImage() {
     mutationFn: async (file: File) => {
       const formData = new FormData();
       formData.append("file", file);
-      const response: AxiosResponse<ImageUploadResponse> = await api.post("/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response: AxiosResponse<ImageUploadResponse> = await api.post(
+        "/upload/image",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        },
+      );
       return response.data;
     },
     retry: false,
   });
 }
 
-export function useDestroyImage() {
+export function useUploadVideo() {
+  const api = useApi();
+
+  return useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response: AxiosResponse<ImageUploadResponse> = await api.post(
+        "/upload/video",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        },
+      );
+      return response.data;
+    },
+    retry: false,
+  });
+}
+
+export function useDestroyFile() {
   const api = useApi();
 
   return useMutation({

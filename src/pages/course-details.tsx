@@ -11,6 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import CourseEnrollsTable from "@/components/tables/course-enrolls-table";
 import CourseBookmarksTable from "@/components/tables/course-bookmarks-table";
 import CourseReviewsTable from "@/components/tables/course-reviews-table";
+import CourseLessonsTable from "@/components/tables/course-lessons-table";
 
 const CourseDetailsPage = () => {
   const { id } = useParams();
@@ -34,7 +35,7 @@ const CourseDetailsPage = () => {
   }
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-6 container mx-auto">
       <Card className="overflow-hidden">
         <img
           src={course.thumbnailUrl}
@@ -96,14 +97,17 @@ const CourseDetailsPage = () => {
           </div>
         </CardContent>
       </Card>
-      <Tabs defaultValue="enrolls" className="space-y-6">
+      <Tabs defaultValue="lessons" className="space-y-6">
         <TabsList className="grid w-full grid-cols-5 lg:w-[400px]">
+          <TabsTrigger value="lessons">Lessons</TabsTrigger>
           <TabsTrigger value="enrolls">Enrolls</TabsTrigger>
           <TabsTrigger value="bookmarks">Bookmarks</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
-          <TabsTrigger value="lessons">Lessons</TabsTrigger>
           <TabsTrigger value="questions">Questions</TabsTrigger>
         </TabsList>
+        <TabsContent value="lessons">
+          <CourseLessonsTable />
+        </TabsContent>
         <TabsContent value="enrolls" className="space-y-6">
           <CourseEnrollsTable />
         </TabsContent>
@@ -112,20 +116,6 @@ const CourseDetailsPage = () => {
         </TabsContent>
         <TabsContent value="reviews" className="space-y-6">
           <CourseReviewsTable />
-        </TabsContent>
-        <TabsContent value="lessons">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Book className="h-5 w-5" />
-                Course Lessons
-              </CardTitle>
-              <CardDescription>Course Lessons</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div></div>
-            </CardContent>
-          </Card>
         </TabsContent>
         <TabsContent value="questions">
           <Card>

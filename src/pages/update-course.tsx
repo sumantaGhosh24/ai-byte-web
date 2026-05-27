@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { courseSchema, type CourseFormValues } from "@/schemas/course.schema";
 import { useCategories } from "@/hooks/use-categories";
 import { useCourse, useUpdateCourse } from "@/hooks/use-courses";
-import { useDestroyImage, useUploadImage } from "@/hooks/use-uploads";
+import { useDestroyFile, useUploadImage } from "@/hooks/use-uploads";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -73,7 +73,7 @@ const UpdateCoursePage = () => {
 
   const uploadImage = useUploadImage();
 
-  const deleteImage = useDestroyImage();
+  const deleteImage = useDestroyFile();
 
   const updateCourse = useUpdateCourse();
 

@@ -1,59 +1,41 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight, Eye, Pen, Trash } from "lucide-react";
 import { toast } from "sonner";
+import { AlertTriangle, ChevronLeft, ChevronRight, Eye, Pen, Trash } from "lucide-react";
 
+import { useDeleteLesson, useLessons } from "@/hooks/use-lessons";
 import { useDestroyFile } from "@/hooks/use-uploads";
-import { useCourses, useDeleteCourse } from "@/hooks/use-courses";
-import { useCategories } from "@/hooks/use-categories";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
-import StatsCardSkeleton from "@/components/skeleton/stats-card-skeleton";
-import StatsCard from "@/components/card/stats-card";
-import { CourseTableRowSkeleton } from "@/components/skeleton/course-table-row-skeleton";
 import type {
-  CourseDifficulty,
-  CourseItem,
-  CourseStatus,
-  CourseVisibility,
-} from "@/types/course.type";
+  LessonDifficulty,
+  LessonItem,
+  LessonStatus,
+  LessonVisibility,
+} from "@/types/lesson.type";
 
-const CoursesPage = () => {
+import { Badge } from "../ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import StatsCardSkeleton from "../skeleton/stats-card-skeleton";
+import StatsCard from "../card/stats-card";
+import { LessonTableRowSkeleton } from "../skeleton/lesson-table-row-skeleton";
+
+const CourseLessonsTable = () => {
+  const { id } = useParams();
+
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
 
-  const [difficulty, setDifficulty] = useState<CourseDifficulty | "all">("all");
-  const [visibility, setVisibility] = useState<CourseVisibility | "all">("all");
-  const [status, setStatus] = useState<CourseStatus | "all">("all");
-  const [categoryId, setCategoryId] = useState<string>("all");
-
-  const {
-    data: categories,
-    isFetching: isCategoriesFetching,
-    isLoading: isCategoriesLoading,
-  } = useCategories();
+  const [difficulty, setDifficulty] = useState<LessonDifficulty | "all">("all");
+  const [visibility, setVisibility] = useState<LessonVisibility | "all">("all");
+  const [status, setStatus] = useState<LessonStatus | "all">("all");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -64,50 +46,40 @@ const CoursesPage = () => {
     return () => clearTimeout(timer);
   }, [searchInput]);
 
-  const { data, isLoading, isFetching, refetch } = useCourses({
+  const { data, isLoading, isFetching, refetch, isError, error } = useLessons({
     page,
     limit,
     search,
+    courseId: id,
     difficulty: difficulty === "all" ? null : difficulty,
     visibility: visibility === "all" ? null : visibility,
     status: status === "all" ? null : status,
-    categoryId: categoryId === "all" ? null : categoryId,
   });
 
-  const deleteCourse = useDeleteCourse();
+  const deleteFile = useDestroyFile();
 
-  const deleteImage = useDestroyFile();
+  const deleteLesson = useDeleteLesson();
 
-  const columns = useMemo<ColumnDef<CourseItem>[]>(
+  const columns = useMemo<ColumnDef<LessonItem>[]>(
     () => [
       {
-        accessorKey: "course",
-        header: "Course",
+        accessorKey: "lesson",
+        header: "Lesson",
         cell: ({ row }) => {
-          const course = row.original;
+          const lesson = row.original;
 
           return (
             <div className="flex items-center gap-3 max-w-[450px]">
-              {course.thumbnailUrl && (
-                <img
-                  src={course.thumbnailUrl}
-                  alt={course.thumbnailPublicId}
-                  className="h-16 w-24 rounded-lg object-cover shrink-0"
-                />
-              )}
+              <img
+                src={lesson.thumbnailUrl ?? "/dummy.png"}
+                alt={lesson.thumbnailPublicId ?? "dummy"}
+                className="h-16 w-24 rounded-lg object-cover shrink-0"
+              />
               <div className="min-w-0 flex-1">
-                <p className="font-medium capitalize truncate">{course.title}</p>
-                <p className="text-sm text-muted-foreground truncate">{course.description}</p>
+                <p className="font-medium capitalize truncate">{lesson.title}</p>
               </div>
             </div>
           );
-        },
-      },
-      {
-        accessorKey: "category",
-        header: "Category",
-        cell: ({ row }) => {
-          return <Badge>{row.original.category.name}</Badge>;
         },
       },
       {
@@ -155,6 +127,7 @@ const CoursesPage = () => {
         },
       },
       { accessorKey: "duration", header: "Duration" },
+      { accessorKey: "orderIndex", header: "Order" },
       {
         accessorKey: "visibility",
         header: "Visibility",
@@ -184,17 +157,11 @@ const CoursesPage = () => {
         header: "Analytics",
 
         cell: ({ row }) => {
-          const course = row.original;
+          const lesson = row.original;
 
           return (
             <div className="space-y-1 text-sm">
-              <p>Lessons: {course.lessonsCount}</p>
-              <p>Enrolls: {course.enrollsCount}</p>
-              <p>Quizzes: {course.quizzesCount}</p>
-              <p>Bookmarks: {course.bookmarksCount}</p>
-              <p>
-                Rating: {Number(course.averageReview).toFixed(1)}({course.reviewsCount})
-              </p>
+              <p>Progresses: {lesson.progressCount}</p>
             </div>
           );
         },
@@ -210,27 +177,31 @@ const CoursesPage = () => {
         id: "actions",
         header: "Actions",
         cell: ({ row }) => {
-          const course = row.original;
+          const lesson = row.original;
 
           const handleDelete = () => {
-            deleteImage.mutate(
-              {
-                public_id: course.thumbnailPublicId!,
-              },
+            if (lesson.thumbnailPublicId) {
+              deleteFile.mutate(
+                { public_id: lesson.thumbnailPublicId! },
+                {
+                  onError: (error) => toast.error(error.message),
+                },
+              );
+            }
+            if (lesson.videoPublicId) {
+              deleteFile.mutate(
+                { public_id: lesson.videoPublicId! },
+                {
+                  onError: (error) => toast.error(error.message),
+                },
+              );
+            }
+            deleteLesson.mutate(
+              { id: lesson.id },
               {
                 onError: (error) => toast.error(error.message),
-                onSuccess: () => {
-                  deleteCourse.mutate(
-                    {
-                      id: course.id,
-                    },
-                    {
-                      onError: (error) => toast.error(error.message),
-                      onSuccess: (data) => {
-                        toast.success(data.message);
-                      },
-                    },
-                  );
+                onSuccess: (data) => {
+                  toast.success(data.message);
                 },
               },
             );
@@ -239,13 +210,13 @@ const CoursesPage = () => {
           return (
             <div className="flex gap-3">
               <Button size="sm" asChild>
-                <Link to={`/course/${course.id}`}>
+                <Link to={`/lesson/${lesson.id}`}>
                   <Eye className="mr-2 h-4 w-4" />
                   View
                 </Link>
               </Button>
               <Button variant="success" size="sm" asChild>
-                <Link to={`/courses/${course.id}/edit`}>
+                <Link to={`/lessons/${lesson.id}/edit`}>
                   <Pen className="mr-2 h-4 w-4" /> Update
                 </Link>
               </Button>
@@ -259,7 +230,7 @@ const CoursesPage = () => {
       },
     ],
 
-    [deleteCourse, deleteImage],
+    [deleteFile, deleteLesson],
   );
 
   // eslint-disable-next-line react-hooks/incompatible-library
@@ -269,57 +240,53 @@ const CoursesPage = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  if (isError) {
+    return (
+      <Alert>
+        <AlertTriangle />
+        <AlertTitle>Something went wrong!</AlertTitle>
+        <AlertDescription>{error.message}</AlertDescription>
+      </Alert>
+    );
+  }
+
   return (
-    <div className="space-y-6 p-4 sm:p-6 container mx-auto">
+    <Card className="space-y-6 p-4 sm:p-6">
       <div className="flex flex-col gap-4">
-        <div className="flex items-center justify-between">
+        <CardHeader className="flex items-center justify-between">
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Courses</h1>
-            <p className="text-sm text-muted-foreground sm:text-base">
-              Manage all courses and analytics.
-            </p>
+            <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">Lessons</CardTitle>
+            <CardDescription className="text-sm text-muted-foreground sm:text-base">
+              Manage all lessons of this course.
+            </CardDescription>
           </div>
           <div className="flex gap-4">
             <Button asChild disabled={isLoading || isFetching}>
-              <Link to="/courses/create">Create Course</Link>
+              <Link to={`/lessons/create/${id}`}>Create Lesson</Link>
             </Button>
             <Button variant="success" asChild disabled={isLoading || isFetching}>
-              <Link to="/courses/generate">Generate AI Course</Link>
+              <Link to={`/lessons/generate/${id}`}>Generate AI Lesson</Link>
+            </Button>
+            <Button variant="success" asChild disabled={isLoading || isFetching}>
+              <Link to={`/lesson/${id}/fix`}>Fix Lessons Order</Link>
             </Button>
             <Button variant="warning" onClick={() => refetch()} disabled={isLoading || isFetching}>
               Refresh
             </Button>
           </div>
-        </div>
+        </CardHeader>
         <Input
-          placeholder="Search courses..."
+          placeholder="Search lessons..."
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {isCategoriesFetching || isCategoriesLoading ? (
-            <Skeleton className="w-full h-[30px]" />
-          ) : (
-            <Select value={categoryId} onValueChange={(value) => setCategoryId(value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select courses category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                {categories.categories.map((category) => (
-                  <SelectItem value={category.id} key={category.id}>
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
           <Select
             value={difficulty}
-            onValueChange={(value: CourseDifficulty) => setDifficulty(value)}
+            onValueChange={(value: LessonDifficulty) => setDifficulty(value)}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select courses difficulty" />
+              <SelectValue placeholder="Select lessons difficulty" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All</SelectItem>
@@ -330,10 +297,10 @@ const CoursesPage = () => {
           </Select>
           <Select
             value={visibility}
-            onValueChange={(value: CourseVisibility) => setVisibility(value)}
+            onValueChange={(value: LessonVisibility) => setVisibility(value)}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select courses visibility" />
+              <SelectValue placeholder="Select lessons visibility" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All</SelectItem>
@@ -341,9 +308,9 @@ const CoursesPage = () => {
               <SelectItem value="private">Private</SelectItem>
             </SelectContent>
           </Select>
-          <Select value={status} onValueChange={(value: CourseStatus) => setStatus(value)}>
+          <Select value={status} onValueChange={(value: LessonStatus) => setStatus(value)}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select courses status" />
+              <SelectValue placeholder="Select lessons status" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All</SelectItem>
@@ -360,13 +327,13 @@ const CoursesPage = () => {
           [...Array(1)].map((_, i) => <StatsCardSkeleton key={i} />)
         ) : (
           <>
-            <StatsCard title="Total Courses" value={data?.result?.paginations?.total} />
+            <StatsCard title="Total Lessons" value={data?.result?.paginations?.total} />
           </>
         )}
       </div>
       <Card>
         <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <CardTitle>All Courses</CardTitle>
+          <CardTitle>All Lessons</CardTitle>
           <Select
             value={String(limit)}
             onValueChange={(value) => {
@@ -400,7 +367,7 @@ const CoursesPage = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <CourseTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <LessonTableRowSkeleton key={i} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>
@@ -414,7 +381,7 @@ const CoursesPage = () => {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={columns.length} className="h-24 text-center">
-                      No courses found.
+                      No lessons found.
                     </TableCell>
                   </TableRow>
                 )}
@@ -450,8 +417,8 @@ const CoursesPage = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </Card>
   );
 };
 
-export default CoursesPage;
+export default CourseLessonsTable;

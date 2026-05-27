@@ -11,15 +11,20 @@ import {
   CoursesPage,
   CreateCategoryPage,
   CreateCoursePage,
+  CreateLessonPage,
   DashboardPage,
+  FixLessonsOrderPage,
   GenerateAICoursePage,
+  GenerateAILessonPage,
   LandingPage,
+  LessonDetailsPage,
   NotFoundPage,
   ProfileDetails,
   SignInPage,
   UnauthorizedPage,
   UpdateCategoryPage,
   UpdateCoursePage,
+  UpdateLessonPage,
   UsersPage,
 } from "./pages";
 
@@ -123,6 +128,46 @@ function App() {
           element={
             <AdminGuard>
               <CourseDetailsPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/lessons/create/:id"
+          element={
+            <AdminGuard>
+              <CreateLessonPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/lessons/generate/:id"
+          element={
+            <AdminGuard>
+              <GenerateAILessonPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/lessons/:id/edit"
+          element={
+            <AdminGuard>
+              <UpdateLessonPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/lesson/:id/fix"
+          element={
+            <AdminGuard>
+              <FixLessonsOrderPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/lesson/:id"
+          element={
+            <AdminGuard>
+              <LessonDetailsPage />
             </AdminGuard>
           }
         />

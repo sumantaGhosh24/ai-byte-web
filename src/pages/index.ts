@@ -13,3 +13,8 @@ export { default as CreateCoursePage } from "./create-course";
 export { default as GenerateAICoursePage } from "./generate-ai-course";
 export { default as UpdateCoursePage } from "./update-course";
 export { default as CourseDetailsPage } from "./course-details";
+export { default as CreateLessonPage } from "./create-lesson";
+export { default as GenerateAILessonPage } from "./generate-ai-lesson";
+export { default as UpdateLessonPage } from "./update-lesson";
+export { default as LessonDetailsPage } from "./lesson-details";
+export { default as FixLessonsOrderPage } from "./fix-lessons-order";

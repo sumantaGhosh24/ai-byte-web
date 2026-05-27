@@ -68,6 +68,7 @@ export interface CreateCoursePayload {
   thumbnailPublicId: string;
   difficulty: CourseDifficulty;
   duration: string;
+  visibility: CourseVisibility;
 }
 
 export interface UpdateCoursePayload {

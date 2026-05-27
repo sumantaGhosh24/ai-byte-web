@@ -8,7 +8,7 @@ import { AlertTriangle, ImagePlus, Loader2, Upload, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { categorySchema, type CategoryFormValues } from "@/schemas/category.schema";
 import { useCategory, useUpdateCategory } from "@/hooks/use-categories";
-import { useDestroyImage, useUploadImage } from "@/hooks/use-uploads";
+import { useDestroyFile, useUploadImage } from "@/hooks/use-uploads";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -57,7 +57,7 @@ const UpdateCategoryPage = () => {
 
   const uploadImage = useUploadImage();
 
-  const deleteImage = useDestroyImage();
+  const deleteImage = useDestroyFile();
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
