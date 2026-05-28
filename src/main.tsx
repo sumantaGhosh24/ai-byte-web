@@ -16,15 +16,15 @@ Sentry.init({
   sendDefaultPii: true,
   integrations: [
     Sentry.browserTracingIntegration(),
-    Sentry.replayIntegration({
-      maskAllText: false,
-      maskAllInputs: false,
-      blockAllMedia: false,
-    }),
+    // Sentry.replayIntegration({
+    //   maskAllText: false,
+    //   maskAllInputs: false,
+    //   blockAllMedia: false,
+    // }),
   ],
   tracesSampleRate: 1.0,
-  replaysSessionSampleRate: 1.0,
-  replaysOnErrorSampleRate: 1.0,
+  // replaysSessionSampleRate: 1.0,
+  // replaysOnErrorSampleRate: 1.0,
   enableLogs: true,
 });
 

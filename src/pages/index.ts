@@ -18,3 +18,7 @@ export { default as GenerateAILessonPage } from "./generate-ai-lesson";
 export { default as UpdateLessonPage } from "./update-lesson";
 export { default as LessonDetailsPage } from "./lesson-details";
 export { default as FixLessonsOrderPage } from "./fix-lessons-order";
+export { default as CreateQuizPage } from "./create-quiz";
+export { default as GenerateAIQuizPage } from "./generate-ai-quiz";
+export { default as UpdateQuizPage } from "./update-quiz";
+export { default as QuizDetailsPage } from "./quiz-details";

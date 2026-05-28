@@ -12,19 +12,23 @@ import {
   CreateCategoryPage,
   CreateCoursePage,
   CreateLessonPage,
+  CreateQuizPage,
   DashboardPage,
   FixLessonsOrderPage,
   GenerateAICoursePage,
   GenerateAILessonPage,
+  GenerateAIQuizPage,
   LandingPage,
   LessonDetailsPage,
   NotFoundPage,
   ProfileDetails,
+  QuizDetailsPage,
   SignInPage,
   UnauthorizedPage,
   UpdateCategoryPage,
   UpdateCoursePage,
   UpdateLessonPage,
+  UpdateQuizPage,
   UsersPage,
 } from "./pages";
 
@@ -168,6 +172,38 @@ function App() {
           element={
             <AdminGuard>
               <LessonDetailsPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/quizzes/create/:id"
+          element={
+            <AdminGuard>
+              <CreateQuizPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/quizzes/generate/:id"
+          element={
+            <AdminGuard>
+              <GenerateAIQuizPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/quizzes/:id/edit"
+          element={
+            <AdminGuard>
+              <UpdateQuizPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/quiz/:id"
+          element={
+            <AdminGuard>
+              <QuizDetailsPage />
             </AdminGuard>
           }
         />

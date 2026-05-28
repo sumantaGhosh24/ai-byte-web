@@ -122,8 +122,8 @@ const GenerateAILessonPage = () => {
         <CardHeader className="space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-2xl font-bold">Generate AI Course</CardTitle>
-              <CardDescription className="mt-1">Generate a course using AI.</CardDescription>
+              <CardTitle className="text-2xl font-bold">Generate AI Lesson</CardTitle>
+              <CardDescription className="mt-1">Generate a lesson using AI.</CardDescription>
             </div>
             <div>
               <Button asChild>

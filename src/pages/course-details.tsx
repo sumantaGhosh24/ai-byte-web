@@ -1,17 +1,18 @@
 import { useParams } from "react-router-dom";
-import { AlertTriangle, Book } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 
 import { useCourse } from "@/hooks/use-courses";
 import StatsCard from "@/components/card/stats-card";
 import { CourseDetailsSkeleton } from "@/components/skeleton/course-details-skeleton";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import CourseEnrollsTable from "@/components/tables/course-enrolls-table";
 import CourseBookmarksTable from "@/components/tables/course-bookmarks-table";
 import CourseReviewsTable from "@/components/tables/course-reviews-table";
 import CourseLessonsTable from "@/components/tables/course-lessons-table";
+import CourseQuizzesTable from "@/components/tables/course-quizzes-table";
 
 const CourseDetailsPage = () => {
   const { id } = useParams();
@@ -103,7 +104,7 @@ const CourseDetailsPage = () => {
           <TabsTrigger value="enrolls">Enrolls</TabsTrigger>
           <TabsTrigger value="bookmarks">Bookmarks</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
-          <TabsTrigger value="questions">Questions</TabsTrigger>
+          <TabsTrigger value="quizzes">Quizzes</TabsTrigger>
         </TabsList>
         <TabsContent value="lessons">
           <CourseLessonsTable />
@@ -117,19 +118,8 @@ const CourseDetailsPage = () => {
         <TabsContent value="reviews" className="space-y-6">
           <CourseReviewsTable />
         </TabsContent>
-        <TabsContent value="questions">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Book className="h-5 w-5" />
-                Course Questions
-              </CardTitle>
-              <CardDescription>Course Questions</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div></div>
-            </CardContent>
-          </Card>
+        <TabsContent value="quizzes">
+          <CourseQuizzesTable />
         </TabsContent>
       </Tabs>
     </div>
