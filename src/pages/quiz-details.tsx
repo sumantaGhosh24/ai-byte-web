@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import QuizDetailsSkeleton from "@/components/skeleton/quiz-details-skeleton";
+import QuizQuestionsTable from "@/components/tables/quiz-questions-table";
 
 const QuizDetailsPage = () => {
   const { id } = useParams();
@@ -85,7 +86,9 @@ const QuizDetailsPage = () => {
           <TabsTrigger value="questions">Questions</TabsTrigger>
           <TabsTrigger value="attempts">Attempts</TabsTrigger>
         </TabsList>
-        <TabsContent value="questions">{/* <LessonProgressTable /> */}</TabsContent>
+        <TabsContent value="questions">
+          <QuizQuestionsTable />
+        </TabsContent>
         <TabsContent value="attempts">{/* <LessonProgressTable /> */}</TabsContent>
       </Tabs>
     </div>
