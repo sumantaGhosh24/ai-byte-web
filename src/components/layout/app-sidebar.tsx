@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@clerk/react";
-import { Badge, Book, LayoutDashboard, Tags, Users } from "lucide-react";
+import { Book, LayoutDashboard, Tags, Trophy, Users } from "lucide-react";
 
 import { useCurrentUser } from "@/hooks/use-profile";
 
@@ -42,7 +42,7 @@ const navItems = [
   {
     label: "Achievements",
     href: "/achievements",
-    icon: Badge,
+    icon: Trophy,
   },
 ];
 

@@ -14,25 +14,36 @@ const rarityConfig = {
     icon: Shield,
     border: "border-slate-300",
     bg: "bg-slate-100",
+    cardClass: "border-slate-300 bg-slate-50 dark:bg-slate-900",
+    badgeClass: "bg-slate-100 text-slate-700 border-slate-300",
     glow: "",
   },
   rare: {
     icon: Sparkles,
     border: "border-blue-400",
     bg: "bg-blue-100",
-    glow: "shadow-[0_0_15px_rgba(59,130,246,0.4)]",
+    cardClass:
+      "border-blue-400 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950",
+    badgeClass: "bg-blue-100 text-blue-700 border-blue-300",
+    glow: "shadow-[0_0_30px_rgba(59,130,246,0.35)]",
   },
   epic: {
     icon: Gem,
     border: "border-purple-500",
     bg: "bg-purple-100",
-    glow: "shadow-[0_0_20px_rgba(168,85,247,0.5)]",
+    cardClass:
+      "border-purple-500 bg-gradient-to-br from-purple-50 to-fuchsia-50 dark:from-purple-950 dark:to-fuchsia-950",
+    badgeClass: "bg-purple-100 text-purple-700 border-purple-300",
+    glow: "shadow-[0_0_35px_rgba(168,85,247,0.45)]",
   },
   legendary: {
     icon: Crown,
     border: "border-yellow-500",
     bg: "bg-yellow-100",
-    glow: "shadow-[0_0_25px_rgba(250,204,21,0.6)]",
+    cardClass:
+      "border-yellow-500 bg-gradient-to-br from-yellow-50 via-amber-50 to-orange-50 dark:from-yellow-950 dark:via-amber-950 dark:to-orange-950",
+    badgeClass: "bg-yellow-100 text-yellow-700 border-yellow-300",
+    glow: "shadow-[0_0_45px_rgba(250,204,21,0.55)]",
   },
 } as const;
 
@@ -82,7 +93,21 @@ const AchievementBadge = ({ achievement }: AchievementBadgeProps) => {
             </div>
           </button>
         </TooltipTrigger>
-        <TooltipContent side="top" className="max-w-xs space-y-2 rounded-xl p-4 flex flex-col">
+        <TooltipContent
+          side="top"
+          className={cn(
+            "max-w-xs space-y-2 rounded-xl p-4 flex flex-col",
+            rarity.cardClass,
+            rarity.glow,
+          )}
+        >
+          {(achievement.achievement.achievementRarity === "epic" ||
+            achievement.achievement.achievementRarity === "legendary") && (
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute -left-20 top-0 h-full w-12 rotate-12 bg-white/20 blur-xl animate-[shine_4s_linear_infinite]" />
+            </div>
+          )}
+          <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-white/20 blur-3xl" />
           <div className="flex items-center gap-2 w-full">
             <img
               src={achievement.achievement.badgeImage}
@@ -90,18 +115,10 @@ const AchievementBadge = ({ achievement }: AchievementBadgeProps) => {
               className="h-10 w-10 rounded-full"
             />
             <div>
-              <p className="font-semibold capitalize mb-1">{achievement.achievement.title}</p>
-              <Badge
-                variant={
-                  achievement.achievement.achievementRarity === "common"
-                    ? "success"
-                    : achievement.achievement.achievementRarity === "rare"
-                      ? "warning"
-                      : achievement.achievement.achievementRarity === "epic"
-                        ? "warning"
-                        : "destructive"
-                }
-              >
+              <p className="font-semibold capitalize mb-1 text-white">
+                {achievement.achievement.title}
+              </p>
+              <Badge className={rarity.badgeClass}>
                 {achievement.achievement.achievementRarity}
               </Badge>
             </div>

@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import {
   AlertTriangle,
   Award,
-  BadgeIcon,
   Bell,
   Bookmark,
   BookOpen,
@@ -354,7 +353,7 @@ const ProfileDetails = () => {
           <Card className="w-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <BadgeIcon className="h-5 w-5" />
+                <Trophy className="h-5 w-5" />
                 User Achievements
               </CardTitle>
               <CardDescription>User all achievements</CardDescription>

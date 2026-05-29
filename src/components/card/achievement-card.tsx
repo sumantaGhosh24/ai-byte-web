@@ -5,14 +5,12 @@ import type { AchievementItem } from "@/types/achievement.type";
 
 export const rarityConfig = {
   common: {
-    label: "Common",
     icon: Shield,
     cardClass: "border-slate-300 bg-slate-50 dark:bg-slate-900",
     badgeClass: "bg-slate-100 text-slate-700 border-slate-300",
     glowClass: "",
   },
   rare: {
-    label: "Rare",
     icon: Sparkles,
     cardClass:
       "border-blue-400 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950",
@@ -20,7 +18,6 @@ export const rarityConfig = {
     glowClass: "shadow-[0_0_30px_rgba(59,130,246,0.35)]",
   },
   epic: {
-    label: "Epic",
     icon: Gem,
     cardClass:
       "border-purple-500 bg-gradient-to-br from-purple-50 to-fuchsia-50 dark:from-purple-950 dark:to-fuchsia-950",
@@ -28,7 +25,6 @@ export const rarityConfig = {
     glowClass: "shadow-[0_0_35px_rgba(168,85,247,0.45)]",
   },
   legendary: {
-    label: "Legendary",
     icon: Crown,
     cardClass:
       "border-yellow-500 bg-gradient-to-br from-yellow-50 via-amber-50 to-orange-50 dark:from-yellow-950 dark:via-amber-950 dark:to-orange-950",
@@ -76,11 +72,11 @@ export function AchievementCard({ achievement }: AchievementCardProps) {
         <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{achievement.description}</p>
         <div
           className={cn(
-            "mt-4 rounded-full border px-3 py-1 text-xs font-semibold",
+            "mt-4 rounded-full border px-3 py-1 text-xs font-semibold uppercase",
             rarity.badgeClass,
           )}
         >
-          {rarity.label}
+          {achievement.achievementRarity}
         </div>
       </div>
     </div>
