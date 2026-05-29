@@ -1,7 +1,7 @@
 import { Skeleton } from "../ui/skeleton";
 
 const DashboardSkeleton = () => (
-  <div className="space-y-6">
+  <div className="space-y-6 my-10">
     <div>
       <Skeleton className="h-8 w-1/4 mb-2" />
       <Skeleton className="h-5 w-1/3" />

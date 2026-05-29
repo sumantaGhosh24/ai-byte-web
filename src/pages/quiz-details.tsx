@@ -22,7 +22,7 @@ const QuizDetailsPage = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -83,7 +83,7 @@ const QuizDetailsPage = () => {
         </CardContent>
       </Card>
       <Tabs defaultValue="questions" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5 lg:w-[400px]">
+        <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
           <TabsTrigger value="questions">Questions</TabsTrigger>
           <TabsTrigger value="attempts">Attempts</TabsTrigger>
         </TabsList>

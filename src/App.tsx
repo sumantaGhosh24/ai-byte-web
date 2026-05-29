@@ -39,7 +39,14 @@ function App() {
   return (
     <Routes>
       <Route element={<LandingLayout />}>
-        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/"
+          element={
+            <PublicGuard>
+              <LandingPage />
+            </PublicGuard>
+          }
+        />
         <Route
           path="/sign-in"
           element={
@@ -211,14 +218,6 @@ function App() {
           }
         />
         <Route
-          path="/unauthorized"
-          element={
-            <UserGuard>
-              <UnauthorizedPage />
-            </UserGuard>
-          }
-        />
-        <Route
           path="/achievements"
           element={
             <AdminGuard>
@@ -240,6 +239,14 @@ function App() {
             <AdminGuard>
               <UpdateAchievementPage />
             </AdminGuard>
+          }
+        />
+        <Route
+          path="/unauthorized"
+          element={
+            <UserGuard>
+              <UnauthorizedPage />
+            </UserGuard>
           }
         />
       </Route>

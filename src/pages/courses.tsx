@@ -3,10 +3,17 @@ import { Link } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { ChevronLeft, ChevronRight, Eye, Pen, Trash } from "lucide-react";
 import { toast } from "sonner";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { useDestroyFile } from "@/hooks/use-uploads";
 import { useCourses, useDeleteCourse } from "@/hooks/use-courses";
 import { useCategories } from "@/hooks/use-categories";
+import type {
+  CourseDifficulty,
+  CourseItem,
+  CourseStatus,
+  CourseVisibility,
+} from "@/types/course.type";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,13 +36,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import StatsCardSkeleton from "@/components/skeleton/stats-card-skeleton";
 import StatsCard from "@/components/card/stats-card";
-import { CourseTableRowSkeleton } from "@/components/skeleton/course-table-row-skeleton";
-import type {
-  CourseDifficulty,
-  CourseItem,
-  CourseStatus,
-  CourseVisibility,
-} from "@/types/course.type";
+import TableRowSkeleton from "@/components/skeleton/table-row-skeleton";
 
 const CoursesPage = () => {
   const [page, setPage] = useState(1);
@@ -92,7 +93,7 @@ const CoursesPage = () => {
                 <img
                   src={course.thumbnailUrl}
                   alt={course.thumbnailPublicId}
-                  className="h-16 w-24 rounded-lg object-cover shrink-0"
+                  className="h-16 w-24 rounded-lg object-cover shrink-0 hidden md:block"
                 />
               )}
               <div className="min-w-0 flex-1">
@@ -182,7 +183,6 @@ const CoursesPage = () => {
       {
         accessorKey: "analytics",
         header: "Analytics",
-
         cell: ({ row }) => {
           const course = row.original;
 
@@ -203,7 +203,7 @@ const CoursesPage = () => {
         accessorKey: "createdAt",
         header: "Created At",
         cell: ({ row }) => {
-          return new Date(row.original.createdAt).toLocaleDateString();
+          return formatDistanceToNowStrict(row.original.createdAt, { addSuffix: true });
         },
       },
       {
@@ -240,18 +240,19 @@ const CoursesPage = () => {
             <div className="flex gap-3">
               <Button size="sm" asChild>
                 <Link to={`/course/${course.id}`}>
-                  <Eye className="mr-2 h-4 w-4" />
-                  View
+                  <Eye className="md:mr-2 h-4 w-4" />
+                  <span className="hidden md:block">View</span>
                 </Link>
               </Button>
               <Button variant="success" size="sm" asChild>
                 <Link to={`/courses/${course.id}/edit`}>
-                  <Pen className="mr-2 h-4 w-4" /> Update
+                  <Pen className="md:mr-2 h-4 w-4" />
+                  <span className="hidden md:block">Update</span>
                 </Link>
               </Button>
               <Button size="sm" variant="destructive" onClick={handleDelete}>
-                <Trash className="mr-2 h-4 w-4" />
-                Delete
+                <Trash className="md:mr-2 h-4 w-4" />
+                <span className="hidden md:block">Delete</span>
               </Button>
             </div>
           );
@@ -270,7 +271,7 @@ const CoursesPage = () => {
   });
 
   return (
-    <div className="space-y-6 p-4 sm:p-6 container mx-auto">
+    <div className="space-y-6 p-4 sm:p-6 my-10">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
@@ -400,7 +401,7 @@ const CoursesPage = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <CourseTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <TableRowSkeleton key={i} count={9} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>

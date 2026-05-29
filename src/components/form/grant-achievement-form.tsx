@@ -54,7 +54,8 @@ const GrantAchievementForm = ({ achievement }: GrantAchievementFormProps) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button>
-          <User className="mr-2 h-4 w-4" /> Grant to User
+          <User className="md:mr-2 h-4 w-4" />
+          <span className="hidden md:block">Grant to User</span>
         </Button>
       </DialogTrigger>
       <DialogContent>

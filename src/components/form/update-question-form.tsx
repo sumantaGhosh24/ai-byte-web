@@ -137,8 +137,9 @@ const UpdateQuestionForm = ({ question, disabled }: UpdateQuestionFormProps) => 
   return (
     <Sheet>
       <SheetTrigger asChild disabled={disabled}>
-        <Button>
-          <Pen className="mr-2 h-4 w-4" /> Update
+        <Button variant="success">
+          <Pen className="md:mr-2 h-4 w-4" />
+          <span className="hidden md:block">Update</span>
         </Button>
       </SheetTrigger>
       <SheetContent className="w-full md:w-1/2 p-5">

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { toast } from "sonner";
 import { AlertTriangle, ChevronLeft, ChevronRight, Trash } from "lucide-react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { useDeleteQuestion, useQuestions } from "@/hooks/use-questions";
 import type {
@@ -21,9 +22,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import StatsCardSkeleton from "../skeleton/stats-card-skeleton";
 import StatsCard from "../card/stats-card";
-import { QuestionTableRowSkeleton } from "../skeleton/question-table-row-skeleton";
 import CreateQuestionForm from "../form/create-question-form";
 import UpdateQuestionForm from "../form/update-question-form";
+import TableRowSkeleton from "../skeleton/table-row-skeleton";
 
 const QuizQuestionsTable = () => {
   const { id } = useParams();
@@ -169,7 +170,7 @@ const QuizQuestionsTable = () => {
       {
         accessorKey: "createdAt",
         header: "Created",
-        cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
+        cell: ({ row }) => formatDistanceToNowStrict(row.original.createdAt, { addSuffix: true }),
       },
       {
         id: "actions",
@@ -193,8 +194,8 @@ const QuizQuestionsTable = () => {
             <div className="flex gap-3">
               <UpdateQuestionForm question={question} disabled={isLoading || isFetching} />
               <Button size="sm" variant="destructive" onClick={handleDelete}>
-                <Trash className="mr-2 h-4 w-4" />
-                Delete
+                <Trash className="md:mr-2 h-4 w-4" />
+                <span className="hidden md:block">Delete</span>
               </Button>
             </div>
           );
@@ -214,7 +215,7 @@ const QuizQuestionsTable = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -225,7 +226,7 @@ const QuizQuestionsTable = () => {
   return (
     <Card className="space-y-6 p-4 sm:p-6">
       <div className="flex flex-col gap-4">
-        <CardHeader className="flex items-center justify-between">
+        <CardHeader className="flex items-center justify-between p-0">
           <div className="space-y-1">
             <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
               Questions
@@ -333,7 +334,7 @@ const QuizQuestionsTable = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <QuestionTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <TableRowSkeleton key={i} count={8} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>

@@ -1,9 +1,9 @@
 import { Skeleton } from "../ui/skeleton";
 import StatsCardSkeleton from "./stats-card-skeleton";
 
-export const CourseDetailsSkeleton = () => {
+const CourseDetailsSkeleton = () => {
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-6 my-10">
       <Skeleton className="h-[350px] w-full rounded-xl" />
       <div className="space-y-4">
         <Skeleton className="h-10 w-[300px]" />
@@ -26,3 +26,5 @@ export const CourseDetailsSkeleton = () => {
     </div>
   );
 };
+
+export default CourseDetailsSkeleton;

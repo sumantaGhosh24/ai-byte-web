@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { toast } from "sonner";
 import { AlertTriangle, ChevronLeft, ChevronRight, Eye, Pen, Trash } from "lucide-react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { useDeleteLesson, useLessons } from "@/hooks/use-lessons";
 import { useDestroyFile } from "@/hooks/use-uploads";
@@ -22,7 +23,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import StatsCardSkeleton from "../skeleton/stats-card-skeleton";
 import StatsCard from "../card/stats-card";
-import { LessonTableRowSkeleton } from "../skeleton/lesson-table-row-skeleton";
+import TableRowSkeleton from "../skeleton/table-row-skeleton";
 
 const CourseLessonsTable = () => {
   const { id } = useParams();
@@ -73,7 +74,7 @@ const CourseLessonsTable = () => {
               <img
                 src={lesson.thumbnailUrl ?? "/dummy.png"}
                 alt={lesson.thumbnailPublicId ?? "dummy"}
-                className="h-16 w-24 rounded-lg object-cover shrink-0"
+                className="h-16 w-24 rounded-lg object-cover shrink-0 hidden md:block"
               />
               <div className="min-w-0 flex-1">
                 <p className="font-medium capitalize truncate">{lesson.title}</p>
@@ -170,7 +171,7 @@ const CourseLessonsTable = () => {
         accessorKey: "createdAt",
         header: "Created At",
         cell: ({ row }) => {
-          return new Date(row.original.createdAt).toLocaleDateString();
+          return formatDistanceToNowStrict(row.original.createdAt, { addSuffix: true });
         },
       },
       {
@@ -211,18 +212,19 @@ const CourseLessonsTable = () => {
             <div className="flex gap-3">
               <Button size="sm" asChild>
                 <Link to={`/lesson/${lesson.id}`}>
-                  <Eye className="mr-2 h-4 w-4" />
-                  View
+                  <Eye className="md:mr-2 h-4 w-4" />
+                  <span className="hidden md:block">View</span>
                 </Link>
               </Button>
               <Button variant="success" size="sm" asChild>
                 <Link to={`/lessons/${lesson.id}/edit`}>
-                  <Pen className="mr-2 h-4 w-4" /> Update
+                  <Pen className="md:mr-2 h-4 w-4" />
+                  <span className="hidden md:block">Update</span>
                 </Link>
               </Button>
               <Button size="sm" variant="destructive" onClick={handleDelete}>
-                <Trash className="mr-2 h-4 w-4" />
-                Delete
+                <Trash className="md:mr-2 h-4 w-4" />
+                <span className="hidden md:block">Delete</span>
               </Button>
             </div>
           );
@@ -242,7 +244,7 @@ const CourseLessonsTable = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -253,14 +255,14 @@ const CourseLessonsTable = () => {
   return (
     <Card className="space-y-6 p-4 sm:p-6">
       <div className="flex flex-col gap-4">
-        <CardHeader className="flex items-center justify-between">
+        <CardHeader className="flex items-center justify-between p-0">
           <div className="space-y-1">
             <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">Lessons</CardTitle>
             <CardDescription className="text-sm text-muted-foreground sm:text-base">
               Manage all lessons of this course.
             </CardDescription>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap">
             <Button asChild disabled={isLoading || isFetching}>
               <Link to={`/lessons/create/${id}`}>Create Lesson</Link>
             </Button>
@@ -367,7 +369,7 @@ const CourseLessonsTable = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <LessonTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <TableRowSkeleton key={i} count={9} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>

@@ -22,7 +22,7 @@ const LessonDetailsPage = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -122,7 +122,7 @@ const LessonDetailsPage = () => {
         </CardContent>
       </Card>
       <Tabs defaultValue="progress" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5 lg:w-[400px]">
+        <TabsList className="grid">
           <TabsTrigger value="progress">Progresses</TabsTrigger>
         </TabsList>
         <TabsContent value="progress">

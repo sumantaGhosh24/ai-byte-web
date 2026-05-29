@@ -1,3 +1,4 @@
+import { useLogout } from "@/hooks/use-users";
 import { Button } from "@/components/ui/button";
 import {
   Empty,
@@ -6,7 +7,6 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { useLogout } from "@/hooks/use-users";
 
 const UnauthorizedPage = () => {
   const { logout } = useLogout();

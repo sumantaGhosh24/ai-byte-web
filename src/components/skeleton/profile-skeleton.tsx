@@ -3,7 +3,7 @@ import { Skeleton } from "../ui/skeleton";
 
 const ProfileSkeleton = () => {
   return (
-    <div className="space-y-6 p-4 md:p-6">
+    <div className="space-y-6 p-4 md:p-6 my-10">
       <Card className="overflow-hidden">
         <div className="h-32 bg-muted" />
         <CardContent className="relative pt-0">

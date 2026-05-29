@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { toast } from "sonner";
 import { AlertTriangle, ChevronLeft, ChevronRight, Eye, Pen, Trash } from "lucide-react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { useDeleteQuiz, useQuizzes } from "@/hooks/use-quizzes";
 import type { QuizDifficulty, QuizItem, QuizStatus, QuizVisibility } from "@/types/quiz.type";
@@ -16,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import StatsCardSkeleton from "../skeleton/stats-card-skeleton";
 import StatsCard from "../card/stats-card";
-import { QuizTableRowSkeleton } from "../skeleton/quiz-table-row-skeleton";
+import TableRowSkeleton from "../skeleton/table-row-skeleton";
 
 const CourseQuizzesTable = () => {
   const { id } = useParams();
@@ -62,8 +63,8 @@ const CourseQuizzesTable = () => {
 
           return (
             <div className="space-y-1">
-              <p className="font-medium">{quiz.title}</p>
-              <p className="max-w-[300px] truncate text-xs text-muted-foreground">
+              <p className="font-medium truncate">{quiz.title}</p>
+              <p className="max-w-[250px] truncate text-xs text-muted-foreground">
                 {quiz.description}
               </p>
             </div>
@@ -156,7 +157,7 @@ const CourseQuizzesTable = () => {
       {
         accessorKey: "createdAt",
         header: "Created",
-        cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
+        cell: ({ row }) => formatDistanceToNowStrict(row.original.createdAt, { addSuffix: true }),
       },
       {
         id: "actions",
@@ -180,18 +181,19 @@ const CourseQuizzesTable = () => {
             <div className="flex gap-3">
               <Button size="sm" asChild>
                 <Link to={`/quiz/${quiz.id}`}>
-                  <Eye className="mr-2 h-4 w-4" />
-                  View
+                  <Eye className="md:mr-2 h-4 w-4" />
+                  <span className="hidden md:block">View</span>
                 </Link>
               </Button>
               <Button variant="success" size="sm" asChild>
                 <Link to={`/quizzes/${quiz.id}/edit`}>
-                  <Pen className="mr-2 h-4 w-4" /> Update
+                  <Pen className="md:mr-2 h-4 w-4" />
+                  <span className="hidden md:block">Update</span>
                 </Link>
               </Button>
               <Button size="sm" variant="destructive" onClick={handleDelete}>
-                <Trash className="mr-2 h-4 w-4" />
-                Delete
+                <Trash className="md:mr-2 h-4 w-4" />
+                <span className="hidden md:block">Delete</span>
               </Button>
             </div>
           );
@@ -211,7 +213,7 @@ const CourseQuizzesTable = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -222,14 +224,14 @@ const CourseQuizzesTable = () => {
   return (
     <Card className="space-y-6 p-4 sm:p-6">
       <div className="flex flex-col gap-4">
-        <CardHeader className="flex items-center justify-between">
+        <CardHeader className="flex items-center justify-between p-0">
           <div className="space-y-1">
             <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">Quizzes</CardTitle>
             <CardDescription className="text-sm text-muted-foreground sm:text-base">
               Manage all quizzes of this course.
             </CardDescription>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap">
             <Button asChild disabled={isLoading || isFetching}>
               <Link to={`/quizzes/create/${id}`}>Create Quiz</Link>
             </Button>
@@ -333,7 +335,7 @@ const CourseQuizzesTable = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <QuizTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <TableRowSkeleton key={i} count={9} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>

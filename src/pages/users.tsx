@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { ChevronLeft, ChevronRight, Eye, Search, Shield, User } from "lucide-react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { useUsers } from "@/hooks/use-users";
 import type { UserItem } from "@/types/user.type";
@@ -26,7 +27,7 @@ import {
 } from "@/components/ui/select";
 import StatsCard from "@/components/card/stats-card";
 import StatsCardSkeleton from "@/components/skeleton/stats-card-skeleton";
-import { UsersTableRowSkeleton } from "@/components/skeleton/users-table-row-skeleton";
+import TableRowSkeleton from "@/components/skeleton/table-row-skeleton";
 
 const UsersPage = () => {
   const [page, setPage] = useState(1);
@@ -109,7 +110,7 @@ const UsersPage = () => {
         accessorKey: "createdAt",
         header: "Joined",
         cell: ({ row }) => {
-          return new Date(row.original.createdAt).toLocaleDateString();
+          return formatDistanceToNowStrict(row.original.createdAt, { addSuffix: true });
         },
       },
       {
@@ -140,7 +141,7 @@ const UsersPage = () => {
   });
 
   return (
-    <div className="space-y-6 p-4 sm:p-6 container mx-auto">
+    <div className="space-y-6 p-4 sm:p-6 my-10">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
@@ -210,7 +211,7 @@ const UsersPage = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <UsersTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <TableRowSkeleton key={i} count={9} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>

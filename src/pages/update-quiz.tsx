@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Textarea } from "@/components/ui/textarea";
-import { CourseFormSkeleton } from "@/components/skeleton/course-form-skeleton";
+import FormSkeleton from "@/components/skeleton/form-skeleton";
 
 const UpdateQuizPage = () => {
   const { id } = useParams();
@@ -73,12 +73,12 @@ const UpdateQuizPage = () => {
   };
 
   if (isLoading || isFetching) {
-    return <CourseFormSkeleton />;
+    return <FormSkeleton count={5} />;
   }
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -87,7 +87,7 @@ const UpdateQuizPage = () => {
   }
 
   return (
-    <div className="mx-auto container">
+    <div className="my-20">
       <Card className="border-border/50 shadow-sm">
         <CardHeader className="space-y-3">
           <div className="flex items-center justify-between">

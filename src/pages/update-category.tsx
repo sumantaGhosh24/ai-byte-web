@@ -23,8 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { UpdateCategoryFormSkeleton } from "@/components/skeleton/update-category-form-skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import FormSkeleton from "@/components/skeleton/form-skeleton";
 
 const UpdateCategoryPage = () => {
   const { id } = useParams();
@@ -122,12 +122,12 @@ const UpdateCategoryPage = () => {
   };
 
   if (isFetching || isLoading) {
-    return <UpdateCategoryFormSkeleton />;
+    return <FormSkeleton count={3} />;
   }
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -136,7 +136,7 @@ const UpdateCategoryPage = () => {
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="my-20">
       <Card className="border-border/50 shadow-sm">
         <CardHeader className="space-y-3">
           <CardTitle className="text-2xl font-bold">Update Category</CardTitle>

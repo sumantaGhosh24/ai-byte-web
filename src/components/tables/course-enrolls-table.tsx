@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { AlertTriangle, ChevronLeft, ChevronRight } from "lucide-react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { useEnrolls } from "@/hooks/use-enrolls";
 import type { EnrollItem } from "@/types/enroll.type";
@@ -16,7 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import StatsCardSkeleton from "../skeleton/stats-card-skeleton";
 import StatsCard from "../card/stats-card";
-import { EnrollTableRowSkeleton } from "../skeleton/enroll-table-row-skeleton";
+import TableRowSkeleton from "../skeleton/table-row-skeleton";
 
 const CourseEnrollsTable = () => {
   const { id } = useParams();
@@ -45,7 +46,7 @@ const CourseEnrollsTable = () => {
 
           return (
             <div className="flex items-center gap-3">
-              <Avatar>
+              <Avatar className="hidden md:block">
                 <AvatarImage src={user.profile.avatarUrl ?? ""} />
                 <AvatarFallback>{user.profile.name?.charAt(0)}</AvatarFallback>
               </Avatar>
@@ -83,12 +84,12 @@ const CourseEnrollsTable = () => {
       {
         accessorKey: "startedAt",
         header: "Started",
-        cell: ({ row }) => new Date(row.original.startedAt).toLocaleDateString(),
+        cell: ({ row }) => formatDistanceToNowStrict(row.original.startedAt, { addSuffix: true }),
       },
       {
         accessorKey: "finishedAt",
         header: "Finished",
-        cell: ({ row }) => new Date(row.original.finishedAt).toLocaleDateString(),
+        cell: ({ row }) => formatDistanceToNowStrict(row.original.finishedAt, { addSuffix: true }),
       },
     ],
     [],
@@ -103,7 +104,7 @@ const CourseEnrollsTable = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -112,9 +113,9 @@ const CourseEnrollsTable = () => {
   }
 
   return (
-    <Card className="space-y-6 p-4 sm:p-6 container mx-auto">
+    <Card className="space-y-6 p-4 sm:p-6">
       <div className="flex flex-col gap-4">
-        <CardHeader className="flex items-center justify-between">
+        <CardHeader className="flex items-center justify-between p-0">
           <div className="space-y-1">
             <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">Enrolls</CardTitle>
             <CardDescription className="text-sm text-muted-foreground sm:text-base">
@@ -188,7 +189,7 @@ const CourseEnrollsTable = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <EnrollTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <TableRowSkeleton key={i} count={5} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>

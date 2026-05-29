@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { CourseFormSkeleton } from "@/components/skeleton/course-form-skeleton";
+import FormSkeleton from "@/components/skeleton/form-skeleton";
 
 const UpdateAchievementPage = () => {
   const { id } = useParams();
@@ -127,12 +127,12 @@ const UpdateAchievementPage = () => {
   };
 
   if (isLoading || isFetching) {
-    return <CourseFormSkeleton />;
+    return <FormSkeleton count={5} />;
   }
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -141,7 +141,7 @@ const UpdateAchievementPage = () => {
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="my-20">
       <Card className="border-border/50 shadow-sm">
         <CardHeader className="space-y-3">
           <CardTitle className="text-2xl font-bold">Update Achievement</CardTitle>

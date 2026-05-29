@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { AlertTriangle, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { useReviews } from "@/hooks/use-reviews";
 import type { ReviewItem } from "@/types/review.type";
@@ -15,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import StatsCardSkeleton from "../skeleton/stats-card-skeleton";
 import StatsCard from "../card/stats-card";
-import { ReviewsTableRowSkeleton } from "../skeleton/reviews-table-row-skeleton";
+import TableRowSkeleton from "../skeleton/table-row-skeleton";
 
 const CourseReviewsTable = () => {
   const { id } = useParams();
@@ -42,7 +43,7 @@ const CourseReviewsTable = () => {
 
           return (
             <div className="flex items-center gap-3">
-              <Avatar>
+              <Avatar className="hidden md:block">
                 <AvatarImage src={user.profile?.avatarUrl ?? ""} />
                 <AvatarFallback>{user.profile?.name?.charAt(0) || "U"}</AvatarFallback>
               </Avatar>
@@ -74,7 +75,7 @@ const CourseReviewsTable = () => {
       {
         accessorKey: "createdAt",
         header: "Created",
-        cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
+        cell: ({ row }) => formatDistanceToNowStrict(row.original.createdAt, { addSuffix: true }),
       },
     ],
     [],
@@ -89,7 +90,7 @@ const CourseReviewsTable = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -104,9 +105,9 @@ const CourseReviewsTable = () => {
     : 0;
 
   return (
-    <Card className="space-y-6 p-4 sm:p-6 container mx-auto">
+    <Card className="space-y-6 p-4 sm:p-6">
       <div className="flex flex-col gap-4">
-        <CardHeader className="flex items-center justify-between">
+        <CardHeader className="flex items-center justify-between p-0">
           <div className="space-y-1">
             <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">Reviews</CardTitle>
             <CardDescription className="text-sm text-muted-foreground sm:text-base">
@@ -169,7 +170,7 @@ const CourseReviewsTable = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <ReviewsTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <TableRowSkeleton key={i} count={3} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>

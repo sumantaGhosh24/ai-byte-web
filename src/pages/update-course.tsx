@@ -25,8 +25,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { CourseFormSkeleton } from "@/components/skeleton/course-form-skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import FormSkeleton from "@/components/skeleton/form-skeleton";
 
 const UpdateCoursePage = () => {
   const { id } = useParams();
@@ -62,7 +62,7 @@ const UpdateCoursePage = () => {
         duration: course?.course?.duration,
         difficulty: course?.course?.difficulty,
         visibility: course?.course?.visibility,
-        categoryId: course?.course?.category?.id,
+        categoryId: course?.course?.categoryId,
       });
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setPreview(course?.course?.thumbnailUrl);
@@ -140,12 +140,12 @@ const UpdateCoursePage = () => {
   };
 
   if (isLoading || isFetching || isCourseFetching || isCourseLoading) {
-    return <CourseFormSkeleton />;
+    return <FormSkeleton count={7} />;
   }
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -154,7 +154,7 @@ const UpdateCoursePage = () => {
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="my-20">
       <Card className="border-border/50 shadow-sm">
         <CardHeader className="space-y-3">
           <CardTitle className="text-2xl font-bold">Update Course</CardTitle>

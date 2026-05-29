@@ -1,6 +1,12 @@
 import { useAuth } from "@clerk/react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useMemo } from "react";
+
+interface ApiErrorResponse {
+  success?: boolean;
+  message?: string;
+  error?: string;
+}
 
 export const useApi = () => {
   const { getToken } = useAuth();
@@ -26,6 +32,19 @@ export const useApi = () => {
         return config;
       },
       (error) => Promise.reject(error),
+    );
+
+    instance.interceptors.response.use(
+      (response) => response,
+      (error: AxiosError<ApiErrorResponse>) => {
+        const message =
+          error.response?.data?.message ||
+          error.response?.data?.error ||
+          error.message ||
+          "Something went wrong";
+
+        return Promise.reject(new Error(message));
+      },
     );
 
     return instance;

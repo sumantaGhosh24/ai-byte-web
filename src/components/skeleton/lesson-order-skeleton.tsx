@@ -2,7 +2,7 @@ import { Skeleton } from "../ui/skeleton";
 
 const LessonOrderSkeleton = () => {
   return (
-    <div className="mx-auto max-w-3xl space-y-4">
+    <div className="my-20">
       <div className="space-y-3">
         {[...Array(6)].map((_, i) => (
           <div key={i} className="border rounded-lg p-4 bg-background flex items-center gap-3">

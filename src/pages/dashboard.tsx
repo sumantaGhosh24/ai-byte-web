@@ -15,7 +15,7 @@ const DashboardPage = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -28,12 +28,11 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 my-10">
       <div>
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <p className="text-muted-foreground">AIByte admin analytics overview.</p>
       </div>
-
       <div className="space-y-8">
         <OverviewSection overview={data?.dashboard?.overview} />
         <UserAnalytics overview={data?.dashboard?.overview} users={data?.dashboard?.users} />

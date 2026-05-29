@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { AlertTriangle, ChevronLeft, ChevronRight, Trophy } from "lucide-react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { useQuizAttempts } from "@/hooks/use-quiz-attempts";
 import type { QuizAttemptItem } from "@/types/quiz-attempt.type";
@@ -12,10 +13,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui
 import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import StatsCardSkeleton from "../skeleton/stats-card-skeleton";
 import StatsCard from "../card/stats-card";
-import { QuestionTableRowSkeleton } from "../skeleton/question-table-row-skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import TableRowSkeleton from "../skeleton/table-row-skeleton";
 
 const QuizAttemptsTable = () => {
   const { id } = useParams();
@@ -39,7 +40,7 @@ const QuizAttemptsTable = () => {
 
           return (
             <div className="flex items-center gap-3">
-              <Avatar>
+              <Avatar className="hidden md:block">
                 <AvatarImage src={user.profile?.avatarUrl || ""} />
                 <AvatarFallback>{user.profile?.name?.charAt(0) || "U"}</AvatarFallback>
               </Avatar>
@@ -84,7 +85,7 @@ const QuizAttemptsTable = () => {
       {
         accessorKey: "submittedAt",
         header: "Submitted",
-        cell: ({ row }) => new Date(row.original.submittedAt).toLocaleString(),
+        cell: ({ row }) => formatDistanceToNowStrict(row.original.submittedAt, { addSuffix: true }),
       },
     ],
     [],
@@ -99,7 +100,7 @@ const QuizAttemptsTable = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -110,7 +111,7 @@ const QuizAttemptsTable = () => {
   return (
     <Card className="space-y-6 p-4 sm:p-6">
       <div className="flex flex-col gap-4">
-        <CardHeader className="flex items-center justify-between">
+        <CardHeader className="flex items-center justify-between p-0">
           <div className="space-y-1">
             <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
               Quiz Attempts
@@ -171,7 +172,7 @@ const QuizAttemptsTable = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <QuestionTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <TableRowSkeleton key={i} count={4} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>

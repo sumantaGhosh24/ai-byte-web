@@ -18,13 +18,13 @@ import {
 
 import { useUser } from "@/hooks/use-profile";
 import { useUserAchievements } from "@/hooks/use-achievements";
-import ProfileSkeleton from "@/components/skeleton/profile-skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import ProfileSkeleton from "@/components/skeleton/profile-skeleton";
 import AchievementBadge from "@/components/badge/achievement-card-user";
 
 const ProfileDetails = () => {
@@ -128,7 +128,7 @@ const ProfileDetails = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -138,7 +138,7 @@ const ProfileDetails = () => {
 
   if (isAchievementError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{achievementError.message}</AlertDescription>

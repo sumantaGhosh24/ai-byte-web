@@ -117,7 +117,7 @@ const GenerateAILessonPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="my-20">
       <Card className="border-border/50 shadow-sm">
         <CardHeader className="space-y-3">
           <div className="flex items-center justify-between">

@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import { Crown, Gem, Shield, Sparkles, Trash2 } from "lucide-react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { cn } from "@/lib/utils";
 import { useRemoveAchievement } from "@/hooks/use-achievements";
@@ -126,7 +127,7 @@ const AchievementBadge = ({ achievement }: AchievementBadgeProps) => {
           <div className="w-full">
             <p className="text-xs text-muted-foreground">{achievement.achievement.description}</p>
             <p className="text-[11px] text-muted-foreground">
-              Unlocked {new Date(achievement.unlockedAt).toLocaleDateString()}
+              Unlocked {formatDistanceToNowStrict(achievement.unlockedAt, { addSuffix: true })}
             </p>
           </div>
           <Button

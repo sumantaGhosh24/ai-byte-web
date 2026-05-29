@@ -2,12 +2,12 @@ import { useParams } from "react-router-dom";
 import { AlertTriangle } from "lucide-react";
 
 import { useCourse } from "@/hooks/use-courses";
-import StatsCard from "@/components/card/stats-card";
-import { CourseDetailsSkeleton } from "@/components/skeleton/course-details-skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import CourseDetailsSkeleton from "@/components/skeleton/course-details-skeleton";
+import StatsCard from "@/components/card/stats-card";
 import CourseEnrollsTable from "@/components/tables/course-enrolls-table";
 import CourseBookmarksTable from "@/components/tables/course-bookmarks-table";
 import CourseReviewsTable from "@/components/tables/course-reviews-table";
@@ -27,7 +27,7 @@ const CourseDetailsPage = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -36,7 +36,7 @@ const CourseDetailsPage = () => {
   }
 
   return (
-    <div className="space-y-6 p-6 container mx-auto">
+    <div className="space-y-6 p-6">
       <Card className="overflow-hidden">
         <img
           src={course.thumbnailUrl}

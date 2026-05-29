@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { CourseFormSkeleton } from "@/components/skeleton/course-form-skeleton";
+import FormSkeleton from "@/components/skeleton/form-skeleton";
 
 const CreateCoursePage = () => {
   const [preview, setPreview] = useState<string | null>(null);
@@ -92,11 +92,11 @@ const CreateCoursePage = () => {
   };
 
   if (isLoading || isFetching) {
-    return <CourseFormSkeleton />;
+    return <FormSkeleton count={7} />;
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="my-20">
       <Card className="border-border/50 shadow-sm">
         <CardHeader className="space-y-3">
           <CardTitle className="text-2xl font-bold">Create Course</CardTitle>

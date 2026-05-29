@@ -2,7 +2,7 @@ import { Card, CardContent } from "../ui/card";
 import { Skeleton } from "../ui/skeleton";
 
 const LessonDetailsSkeleton = () => (
-  <div className="space-y-6 p-6">
+  <div className="space-y-6 p-6 my-10">
     <Card className="overflow-hidden">
       <Skeleton className="h-[350px] w-full" />
       <CardContent className="space-y-6 p-6">

@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const QuizDetailsSkeleton = () => {
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-6 my-10">
       <div className="overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm">
         <div className="space-y-6 p-6">
           <div className="flex items-center justify-between">

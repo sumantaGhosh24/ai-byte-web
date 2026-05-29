@@ -8,9 +8,9 @@ const AdminLayout = () => {
   return (
     <SidebarProvider className="flex">
       <AppSidebar />
-      <div className="flex min-h-screen flex-1 flex-col">
+      <div className="min-h-screen w-full">
         <Header />
-        <div className="flex-1 p-6">
+        <div className="container mx-auto">
           <Outlet />
         </div>
       </div>

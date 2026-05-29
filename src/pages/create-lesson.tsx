@@ -120,7 +120,7 @@ const CreateLessonPage = () => {
   };
 
   return (
-    <div className="mx-auto container">
+    <div className="my-20">
       <Card className="border-border/50 shadow-sm">
         <CardHeader className="space-y-3">
           <div className="flex items-center justify-between">

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { flexRender, getCoreRowModel, useReactTable, type ColumnDef } from "@tanstack/react-table";
 import { AlertTriangle, ChevronLeft, ChevronRight } from "lucide-react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { useBookmarks } from "@/hooks/use-bookmarks";
 import type { BookmarkItem } from "@/types/bookmark.type";
@@ -15,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import StatsCardSkeleton from "../skeleton/stats-card-skeleton";
 import StatsCard from "../card/stats-card";
-import { BookmarksTableRowSkeleton } from "../skeleton/bookmark-table-row-skeleton";
+import TableRowSkeleton from "../skeleton/table-row-skeleton";
 
 const CourseBookmarksTable = () => {
   const { id } = useParams();
@@ -43,7 +44,7 @@ const CourseBookmarksTable = () => {
 
           return (
             <div className="flex items-center gap-3">
-              <Avatar>
+              <Avatar className="hidden md:block">
                 <AvatarImage src={user.profile?.avatarUrl || undefined} />
                 <AvatarFallback>{user.profile?.name?.charAt(0) || "U"}</AvatarFallback>
               </Avatar>
@@ -68,7 +69,7 @@ const CourseBookmarksTable = () => {
       {
         accessorKey: "createdAt",
         header: "Bookmarked",
-        cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
+        cell: ({ row }) => formatDistanceToNowStrict(row.original.createdAt, { addSuffix: true }),
       },
     ],
     [],
@@ -83,7 +84,7 @@ const CourseBookmarksTable = () => {
 
   if (isError) {
     return (
-      <Alert>
+      <Alert className="my-5">
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
@@ -92,9 +93,9 @@ const CourseBookmarksTable = () => {
   }
 
   return (
-    <Card className="space-y-6 p-4 sm:p-6 container mx-auto">
+    <Card className="space-y-6 p-4 sm:p-6">
       <div className="flex flex-col gap-4">
-        <CardHeader className="flex items-center justify-between">
+        <CardHeader className="flex items-center justify-between p-0">
           <div className="space-y-1">
             <CardTitle className="text-2xl font-bold tracking-tight sm:text-3xl">
               Bookmarks
@@ -158,7 +159,7 @@ const CourseBookmarksTable = () => {
               </TableHeader>
               <TableBody>
                 {isLoading || isFetching ? (
-                  [...Array(limit)].map((_, i) => <BookmarksTableRowSkeleton key={i} />)
+                  [...Array(limit)].map((_, i) => <TableRowSkeleton key={i} count={3} />)
                 ) : table.getRowModel().rows.length ? (
                   table.getRowModel().rows.map((row) => (
                     <TableRow key={row.id}>
