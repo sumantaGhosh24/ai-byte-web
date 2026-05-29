@@ -22,3 +22,6 @@ export { default as CreateQuizPage } from "./create-quiz";
 export { default as GenerateAIQuizPage } from "./generate-ai-quiz";
 export { default as UpdateQuizPage } from "./update-quiz";
 export { default as QuizDetailsPage } from "./quiz-details";
+export { default as AchievementsPage } from "./achievements";
+export { default as CreateAchievementPage } from "./create-achievement";
+export { default as UpdateAchievementPage } from "./update-achievement";

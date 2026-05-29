@@ -6,9 +6,11 @@ import PublicGuard from "./routes/public-guard";
 import AdminGuard from "./routes/admin-guard";
 import UserGuard from "./routes/user-guard";
 import {
+  AchievementsPage,
   CategoriesPage,
   CourseDetailsPage,
   CoursesPage,
+  CreateAchievementPage,
   CreateCategoryPage,
   CreateCoursePage,
   CreateLessonPage,
@@ -25,6 +27,7 @@ import {
   QuizDetailsPage,
   SignInPage,
   UnauthorizedPage,
+  UpdateAchievementPage,
   UpdateCategoryPage,
   UpdateCoursePage,
   UpdateLessonPage,
@@ -213,6 +216,30 @@ function App() {
             <UserGuard>
               <UnauthorizedPage />
             </UserGuard>
+          }
+        />
+        <Route
+          path="/achievements"
+          element={
+            <AdminGuard>
+              <AchievementsPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/achievements/create"
+          element={
+            <AdminGuard>
+              <CreateAchievementPage />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/achievements/:id/edit"
+          element={
+            <AdminGuard>
+              <UpdateAchievementPage />
+            </AdminGuard>
           }
         />
       </Route>

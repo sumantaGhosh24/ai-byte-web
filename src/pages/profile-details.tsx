@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import {
   AlertTriangle,
   Award,
+  BadgeIcon,
   Bell,
   Bookmark,
   BookOpen,
@@ -17,6 +18,7 @@ import {
 } from "lucide-react";
 
 import { useUser } from "@/hooks/use-profile";
+import { useUserAchievements } from "@/hooks/use-achievements";
 import ProfileSkeleton from "@/components/skeleton/profile-skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -24,11 +26,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import AchievementBadge from "@/components/badge/achievement-card-user";
 
 const ProfileDetails = () => {
   const { id } = useParams();
 
   const { data, isLoading, isFetching, isError, error } = useUser(id);
+
+  const {
+    data: achievements,
+    isLoading: isAchievementLoading,
+    isFetching: isAchievementFetching,
+    isError: isAchievementError,
+    error: achievementError,
+  } = useUserAchievements(id);
 
   const userData = data?.user;
 
@@ -112,7 +123,7 @@ const ProfileDetails = () => {
     { title: "Bookmark XP", value: xp?.bookmarkXP, icon: Bookmark },
   ];
 
-  if (isLoading || isFetching) {
+  if (isLoading || isFetching || isAchievementLoading || isAchievementFetching) {
     return <ProfileSkeleton />;
   }
 
@@ -122,6 +133,16 @@ const ProfileDetails = () => {
         <AlertTriangle />
         <AlertTitle>Something went wrong!</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>
+      </Alert>
+    );
+  }
+
+  if (isAchievementError) {
+    return (
+      <Alert>
+        <AlertTriangle />
+        <AlertTitle>Something went wrong!</AlertTitle>
+        <AlertDescription>{achievementError.message}</AlertDescription>
       </Alert>
     );
   }
@@ -330,6 +351,22 @@ const ProfileDetails = () => {
               </CardContent>
             </Card>
           </div>
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BadgeIcon className="h-5 w-5" />
+                User Achievements
+              </CardTitle>
+              <CardDescription>User all achievements</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              <div className="flex flex-wrap gap-3">
+                {achievements?.achievements.map((achievement) => (
+                  <AchievementBadge achievement={achievement} key={achievement.id} />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
         <TabsContent value="xp" className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
