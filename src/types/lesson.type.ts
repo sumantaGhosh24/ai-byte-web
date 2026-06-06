@@ -36,7 +36,6 @@ export interface LessonResponse {
       status: LessonStatus;
     };
     _count: {
-      notifications: number;
       progress: number;
     };
   };

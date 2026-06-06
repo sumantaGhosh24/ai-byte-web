@@ -83,7 +83,6 @@ const LessonDetailsPage = () => {
             </Badge>
             <Badge variant="outline">Order: {lesson.orderIndex}</Badge>
             <Badge variant="secondary">Progress: {lesson._count?.progress ?? 0}</Badge>
-            <Badge variant="secondary">Notifications: {lesson._count?.notifications ?? 0}</Badge>
           </div>
           <MarkdownPreview content={lesson.content} />
           {lesson.videoUrl && (

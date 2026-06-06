@@ -102,19 +102,23 @@ const UpdateLessonPage = () => {
 
   const onSubmit = (values: LessonFormValues) => {
     if (thumbnailFile && videoFile) {
-      deleteFile.mutate(
-        { public_id: data?.lesson?.thumbnailPublicId },
-        {
-          onError: (error) => toast.error(error.message),
-        },
-      );
+      if (data?.lesson?.thumbnailPublicId) {
+        deleteFile.mutate(
+          { public_id: data?.lesson?.thumbnailPublicId },
+          {
+            onError: (error) => toast.error(error.message),
+          },
+        );
+      }
 
-      deleteFile.mutate(
-        { public_id: data?.lesson?.videoPublicId },
-        {
-          onError: (error) => toast.error(error.message),
-        },
-      );
+      if (data?.lesson?.videoPublicId) {
+        deleteFile.mutate(
+          { public_id: data?.lesson?.videoPublicId },
+          {
+            onError: (error) => toast.error(error.message),
+          },
+        );
+      }
 
       uploadImage.mutate(thumbnailFile, {
         onSuccess: (thumbnail) => {
@@ -149,12 +153,14 @@ const UpdateLessonPage = () => {
     }
 
     if (thumbnailFile) {
-      deleteFile.mutate(
-        { public_id: data?.lesson?.thumbnailPublicId },
-        {
-          onError: (error) => toast.error(error.message),
-        },
-      );
+      if (data?.lesson?.thumbnailPublicId) {
+        deleteFile.mutate(
+          { public_id: data?.lesson?.thumbnailPublicId },
+          {
+            onError: (error) => toast.error(error.message),
+          },
+        );
+      }
 
       uploadImage.mutate(thumbnailFile, {
         onSuccess: (thumbnail) => {
@@ -182,12 +188,14 @@ const UpdateLessonPage = () => {
     }
 
     if (videoFile) {
-      deleteFile.mutate(
-        { public_id: data?.lesson?.videoPublicId },
-        {
-          onError: (error) => toast.error(error.message),
-        },
-      );
+      if (data?.lesson?.videoPublicId) {
+        deleteFile.mutate(
+          { public_id: data?.lesson?.videoPublicId },
+          {
+            onError: (error) => toast.error(error.message),
+          },
+        );
+      }
 
       uploadVideo.mutate(videoFile, {
         onSuccess: (video) => {
