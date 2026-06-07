@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { AlertTriangle, ImagePlus, Loader2, Upload, Video, X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { lessonSchema, type LessonFormValues } from "@/schemas/lesson.schema";
 import { useLesson, useUpdateLesson } from "@/hooks/use-lessons";
 import { useDestroyFile, useUploadImage, useUploadVideo } from "@/hooks/use-uploads";
@@ -59,8 +58,8 @@ const UpdateLessonPage = () => {
         visibility: data?.lesson?.visibility,
       });
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setThumbnailPreview(data?.lesson?.thumbnailUrl);
-      setVideoPreview(data?.lesson?.videoUrl);
+      setThumbnailPreview(data?.lesson?.thumbnailUrl ?? null);
+      setVideoPreview(data?.lesson?.videoUrl ?? null);
     }
   }, [data, form]);
 
@@ -101,6 +100,8 @@ const UpdateLessonPage = () => {
   };
 
   const onSubmit = (values: LessonFormValues) => {
+    if (!id) return;
+
     if (thumbnailFile && videoFile) {
       if (data?.lesson?.thumbnailPublicId) {
         deleteFile.mutate(
@@ -124,6 +125,8 @@ const UpdateLessonPage = () => {
         onSuccess: (thumbnail) => {
           uploadVideo.mutate(videoFile, {
             onSuccess: (video) => {
+              if (!video.file || !thumbnail.file) return;
+
               updateLesson.mutate(
                 {
                   ...values,
@@ -164,6 +167,8 @@ const UpdateLessonPage = () => {
 
       uploadImage.mutate(thumbnailFile, {
         onSuccess: (thumbnail) => {
+          if (!thumbnail.file) return;
+
           updateLesson.mutate(
             {
               ...values,
@@ -199,6 +204,8 @@ const UpdateLessonPage = () => {
 
       uploadVideo.mutate(videoFile, {
         onSuccess: (video) => {
+          if (!video.file) return;
+
           updateLesson.mutate(
             {
               ...values,
@@ -280,10 +287,7 @@ const UpdateLessonPage = () => {
                   {!thumbnailPreview ? (
                     <Label
                       htmlFor="image-upload"
-                      className={cn(
-                        "group flex min-h-[260px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all",
-                        "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40",
-                      )}
+                      className="group flex min-h-65 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40"
                     >
                       <div className="flex flex-col items-center justify-center space-y-4 p-6 text-center">
                         <div className="flex size-16 items-center justify-center rounded-full bg-muted">
@@ -313,7 +317,7 @@ const UpdateLessonPage = () => {
                       <img
                         src={thumbnailPreview}
                         alt="Preview"
-                        className="h-[320px] w-full object-cover"
+                        className="h-80 w-full object-cover"
                       />
                       <div className="absolute inset-0 bg-black/0 transition-all hover:bg-black/20" />
                       <Button
@@ -335,10 +339,7 @@ const UpdateLessonPage = () => {
                   {!videoPreview ? (
                     <Label
                       htmlFor="video-upload"
-                      className={cn(
-                        "group flex min-h-[260px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed",
-                        "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40",
-                      )}
+                      className="group flex min-h-65 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40"
                     >
                       <div className="flex flex-col items-center justify-center space-y-4 p-6 text-center">
                         <div className="flex size-16 items-center justify-center rounded-full bg-muted">
@@ -365,11 +366,7 @@ const UpdateLessonPage = () => {
                     </Label>
                   ) : (
                     <div className="relative overflow-hidden rounded-2xl border">
-                      <video
-                        src={videoPreview}
-                        controls
-                        className="max-h-[500px] w-full bg-black"
-                      />
+                      <video src={videoPreview} controls className="max-h-125 w-full bg-black" />
                       <Button
                         type="button"
                         size="icon"
@@ -439,7 +436,7 @@ const UpdateLessonPage = () => {
                       defaultValue={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select lesson difficulty" />
                       </SelectTrigger>
                       <SelectContent>
@@ -465,7 +462,7 @@ const UpdateLessonPage = () => {
                       defaultValue={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select lesson visibility" />
                       </SelectTrigger>
                       <SelectContent>
@@ -482,7 +479,7 @@ const UpdateLessonPage = () => {
               <Button
                 type="submit"
                 disabled={updateLesson.isPending || uploadImage.isPending || uploadVideo.isPending}
-                className="min-w-[160px]"
+                className="min-w-40"
               >
                 {updateLesson.isPending || uploadImage.isPending || uploadVideo.isPending ? (
                   <>

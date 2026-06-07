@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "../ui/skeleton";
 
 const QuizDetailsSkeleton = () => {
   return (
@@ -22,7 +22,7 @@ const QuizDetailsSkeleton = () => {
         </div>
       </div>
       <div>
-        <div className="grid w-full grid-cols-5 gap-4 lg:w-[400px] mb-4">
+        <div className="grid w-full grid-cols-5 gap-4 lg:w-100 mb-4">
           <Skeleton className="h-10 w-full rounded-md" />
           <Skeleton className="h-10 w-full rounded-md" />
           <div className="col-span-3" />

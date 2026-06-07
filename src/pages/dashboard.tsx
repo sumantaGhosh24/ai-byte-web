@@ -34,16 +34,16 @@ const DashboardPage = () => {
         <p className="text-muted-foreground">AIByte admin analytics overview.</p>
       </div>
       <div className="space-y-8">
-        <OverviewSection overview={data?.dashboard?.overview} />
-        <UserAnalytics overview={data?.dashboard?.overview} users={data?.dashboard?.users} />
-        <CourseAnalytics courses={data?.dashboard?.courses} />
-        <QuizAnalytics quizzes={data?.dashboard?.quizzes} />
-        <AchievementAnalytics achievements={data?.dashboard?.achievements} />
+        <OverviewSection overview={data!.dashboard!.overview} />
+        <UserAnalytics overview={data!.dashboard!.overview} users={data!.dashboard!.users} />
+        <CourseAnalytics courses={data!.dashboard!.courses} />
+        <QuizAnalytics quizzes={data!.dashboard!.quizzes} />
+        <AchievementAnalytics achievements={data!.dashboard!.achievements} />
         <NotificationAnalytics
-          notifications={data?.dashboard?.notifications}
-          overview={data?.dashboard?.overview}
+          notifications={data!.dashboard!.notifications}
+          overview={data!.dashboard!.overview}
         />
-        <LatestUsersTable users={data?.dashboard?.users} />
+        <LatestUsersTable users={data!.dashboard!.users} />
       </div>
     </div>
   );

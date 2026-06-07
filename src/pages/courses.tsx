@@ -88,7 +88,7 @@ const CoursesPage = () => {
           const course = row.original;
 
           return (
-            <div className="flex items-center gap-3 max-w-[450px]">
+            <div className="flex items-center gap-3 max-w-112.5">
               {course.thumbnailUrl && (
                 <img
                   src={course.thumbnailUrl}
@@ -299,7 +299,7 @@ const CoursesPage = () => {
         />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
           {isCategoriesFetching || isCategoriesLoading ? (
-            <Skeleton className="w-full h-[30px]" />
+            <Skeleton className="w-full h-7.5" />
           ) : (
             <Select value={categoryId} onValueChange={(value) => setCategoryId(value)}>
               <SelectTrigger className="w-full">
@@ -307,7 +307,7 @@ const CoursesPage = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
-                {categories.categories.map((category) => (
+                {categories?.categories?.map((category) => (
                   <SelectItem value={category.id} key={category.id}>
                     {category.name}
                   </SelectItem>
@@ -375,7 +375,7 @@ const CoursesPage = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

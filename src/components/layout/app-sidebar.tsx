@@ -52,7 +52,7 @@ const AppSidebar = () => {
   const { data, isLoading } = useCurrentUser();
 
   if (!isLoaded || isLoading) {
-    return <Skeleton className="w-[200px] h-20" />;
+    return <Skeleton className="w-50 h-20" />;
   }
 
   return (

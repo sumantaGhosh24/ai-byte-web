@@ -185,7 +185,7 @@ const UsersPage = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

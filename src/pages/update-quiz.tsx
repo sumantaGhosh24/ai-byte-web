@@ -55,6 +55,8 @@ const UpdateQuizPage = () => {
   const updateQuiz = useUpdateQuiz();
 
   const onSubmit = (values: QuizFormValues) => {
+    if (!id) return;
+
     updateQuiz.mutate(
       {
         ...values,
@@ -167,7 +169,7 @@ const UpdateQuizPage = () => {
                       defaultValue={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select quiz difficulty" />
                       </SelectTrigger>
                       <SelectContent>
@@ -193,7 +195,7 @@ const UpdateQuizPage = () => {
                       defaultValue={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select quiz visibility" />
                       </SelectTrigger>
                       <SelectContent>
@@ -207,7 +209,7 @@ const UpdateQuizPage = () => {
                   </Field>
                 )}
               />
-              <Button type="submit" disabled={updateQuiz.isPending} className="min-w-[160px]">
+              <Button type="submit" disabled={updateQuiz.isPending} className="min-w-40">
                 {updateQuiz.isPending ? (
                   <>
                     <Loader2 className="mr-2 size-4 animate-spin" />

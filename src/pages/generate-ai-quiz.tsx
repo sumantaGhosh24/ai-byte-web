@@ -114,7 +114,7 @@ const GenerateAIQuizPage = () => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Quiz Difficulty</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select quiz difficulty" />
                       </SelectTrigger>
                       <SelectContent>
@@ -129,7 +129,7 @@ const GenerateAIQuizPage = () => {
                   </Field>
                 )}
               />
-              <Button type="submit" disabled={generateQuiz.isPending} className="min-w-[160px]">
+              <Button type="submit" disabled={generateQuiz.isPending} className="min-w-40">
                 {generateQuiz.isPending ? (
                   <>
                     <Loader2 className="mr-2 size-4 animate-spin" />

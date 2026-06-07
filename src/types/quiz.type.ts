@@ -45,9 +45,9 @@ export interface UseQuizzesParams {
   page?: number;
   limit?: number;
   search?: string;
-  difficulty?: QuizDifficulty;
-  visibility?: QuizVisibility;
-  status?: QuizStatus;
+  difficulty?: QuizDifficulty | null;
+  visibility?: QuizVisibility | null;
+  status?: QuizStatus | null;
 }
 
 export interface CreateQuizPayload {

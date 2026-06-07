@@ -53,9 +53,9 @@ export interface UseLessonsParams {
   page?: number;
   limit?: number;
   search?: string;
-  difficulty?: LessonDifficulty;
-  visibility?: LessonVisibility;
-  status?: LessonStatus;
+  difficulty?: LessonDifficulty | null;
+  visibility?: LessonVisibility | null;
+  status?: LessonStatus | null;
   courseId: string;
 }
 

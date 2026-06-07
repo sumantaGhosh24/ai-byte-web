@@ -30,7 +30,7 @@ const QuizDetailsPage = () => {
     );
   }
 
-  const quiz = data.quiz;
+  const quiz = data?.quiz;
 
   return (
     <div className="space-y-6 p-6">
@@ -38,8 +38,8 @@ const QuizDetailsPage = () => {
         <CardContent className="space-y-6 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold capitalize">{quiz.title}</h1>
-              <h1 className="text-lg capitalize">{quiz.description}</h1>
+              <h1 className="text-3xl font-bold capitalize">{quiz?.title}</h1>
+              <h1 className="text-lg capitalize">{quiz?.description}</h1>
             </div>
             <Button asChild>
               <Link to={`/course/${quiz?.courseId}`}>Back to Course</Link>
@@ -48,42 +48,42 @@ const QuizDetailsPage = () => {
           <div className="flex flex-wrap gap-3 mt-6">
             <Badge
               variant={
-                quiz.difficulty === "beginner"
+                quiz?.difficulty === "beginner"
                   ? "success"
-                  : quiz.difficulty === "intermediate"
+                  : quiz?.difficulty === "intermediate"
                     ? "default"
                     : "destructive"
               }
             >
-              {quiz.difficulty}
+              {quiz?.difficulty}
             </Badge>
-            <Badge variant={quiz.aiGenerated ? "warning" : "success"}>
-              {quiz.aiGenerated ? "True" : "False"}
+            <Badge variant={quiz?.aiGenerated ? "warning" : "success"}>
+              {quiz?.aiGenerated ? "True" : "False"}
             </Badge>
-            <Badge variant={quiz.visibility === "public" ? "success" : "warning"}>
-              {quiz.visibility}
+            <Badge variant={quiz?.visibility === "public" ? "success" : "warning"}>
+              {quiz?.visibility}
             </Badge>
             <Badge
               variant={
-                quiz.status === "completed"
+                quiz?.status === "completed"
                   ? "success"
-                  : quiz.status === "processing"
+                  : quiz?.status === "processing"
                     ? "warning"
-                    : quiz.status === "pending"
+                    : quiz?.status === "pending"
                       ? "warning"
                       : "destructive"
               }
             >
-              {quiz.status}
+              {quiz?.status}
             </Badge>
-            <Badge variant="outline">Passing score: {quiz.passingScore}</Badge>
-            <Badge variant="secondary">Questions: {quiz._count?.questions ?? 0}</Badge>
-            <Badge variant="secondary">Attempts: {quiz._count?.attemts ?? 0}</Badge>
+            <Badge variant="outline">Passing score: {quiz?.passingScore}</Badge>
+            <Badge variant="secondary">Questions: {quiz?._count?.questions ?? 0}</Badge>
+            <Badge variant="secondary">Attempts: {quiz?._count?.attemts ?? 0}</Badge>
           </div>
         </CardContent>
       </Card>
       <Tabs defaultValue="questions" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
+        <TabsList className="grid w-full grid-cols-2 lg:w-100">
           <TabsTrigger value="questions">Questions</TabsTrigger>
           <TabsTrigger value="attempts">Attempts</TabsTrigger>
         </TabsList>

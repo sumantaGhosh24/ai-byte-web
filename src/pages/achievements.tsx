@@ -72,7 +72,7 @@ const AchievementsPage = () => {
           const achievement = row.original;
 
           return (
-            <div className="flex items-center gap-3 max-w-[450px]">
+            <div className="flex items-center gap-3 max-w-112.5">
               {achievement.badgeImage && (
                 <img
                   src={achievement.badgeImage}
@@ -263,7 +263,7 @@ const AchievementsPage = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

@@ -12,9 +12,9 @@ const ProfileSkeleton = () => {
               <Skeleton className="h-32 w-32 rounded-full border-4 border-background" />
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <Skeleton className="h-8 w-[220px]" />
-                  <Skeleton className="h-4 w-[140px]" />
-                  <Skeleton className="h-4 w-[200px]" />
+                  <Skeleton className="h-8 w-55" />
+                  <Skeleton className="h-4 w-35" />
+                  <Skeleton className="h-4 w-50" />
                 </div>
                 <div className="flex gap-2">
                   <Skeleton className="h-6 w-20 rounded-full" />
@@ -25,15 +25,15 @@ const ProfileSkeleton = () => {
             </div>
             <Card className="w-full lg:w-[320px]">
               <CardHeader className="pb-3">
-                <Skeleton className="h-6 w-[120px]" />
-                <Skeleton className="h-4 w-[180px]" />
+                <Skeleton className="h-6 w-30" />
+                <Skeleton className="h-4 w-45" />
               </CardHeader>
               <CardContent className="space-y-4">
                 <Skeleton className="h-3 w-full" />
                 <div className="flex items-center justify-between">
                   <div className="space-y-2">
-                    <Skeleton className="h-8 w-[100px]" />
-                    <Skeleton className="h-4 w-[80px]" />
+                    <Skeleton className="h-8 w-25" />
+                    <Skeleton className="h-4 w-20" />
                   </div>
                   <Skeleton className="h-12 w-12 rounded-xl" />
                 </div>
@@ -47,9 +47,9 @@ const ProfileSkeleton = () => {
           <Card key={i}>
             <CardContent className="flex items-center justify-between p-6">
               <div className="space-y-3">
-                <Skeleton className="h-4 w-[120px]" />
-                <Skeleton className="h-8 w-[70px]" />
-                <Skeleton className="h-3 w-[100px]" />
+                <Skeleton className="h-4 w-30" />
+                <Skeleton className="h-8 w-17.5" />
+                <Skeleton className="h-3 w-25" />
               </div>
               <Skeleton className="h-14 w-14 rounded-xl" />
             </CardContent>
@@ -58,35 +58,35 @@ const ProfileSkeleton = () => {
       </div>
       <div className="space-y-6">
         <div className="flex gap-2">
-          <Skeleton className="h-10 w-[120px]" />
-          <Skeleton className="h-10 w-[120px]" />
-          <Skeleton className="h-10 w-[120px]" />
+          <Skeleton className="h-10 w-30" />
+          <Skeleton className="h-10 w-30" />
+          <Skeleton className="h-10 w-30" />
         </div>
         <div className="grid gap-6 lg:grid-cols-2">
           {[...Array(2)].map((_, i) => (
             <Card key={i}>
               <CardHeader>
-                <Skeleton className="h-6 w-[180px]" />
-                <Skeleton className="h-4 w-[220px]" />
+                <Skeleton className="h-6 w-45" />
+                <Skeleton className="h-4 w-55" />
               </CardHeader>
               <CardContent className="space-y-5">
                 {[...Array(4)].map((__, idx) => (
                   <div key={idx} className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <Skeleton className="h-4 w-[120px]" />
-                      <Skeleton className="h-4 w-[50px]" />
+                      <Skeleton className="h-4 w-30" />
+                      <Skeleton className="h-4 w-12.5" />
                     </div>
                     <Skeleton className="h-3 w-full" />
                   </div>
                 ))}
                 <div className="grid grid-cols-2 gap-4 rounded-xl border p-4">
                   <div className="space-y-2">
-                    <Skeleton className="h-4 w-[100px]" />
-                    <Skeleton className="h-8 w-[60px]" />
+                    <Skeleton className="h-4 w-25" />
+                    <Skeleton className="h-8 w-15" />
                   </div>
                   <div className="space-y-2">
-                    <Skeleton className="h-4 w-[140px]" />
-                    <Skeleton className="h-8 w-[60px]" />
+                    <Skeleton className="h-4 w-35" />
+                    <Skeleton className="h-8 w-15" />
                   </div>
                 </div>
               </CardContent>

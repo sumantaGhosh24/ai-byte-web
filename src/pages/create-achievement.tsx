@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { ImagePlus, Loader2, Upload, X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { achievementSchema, type AchievementFormValues } from "@/schemas/achievement.schema";
 import { useCreateAchievement } from "@/hooks/use-achievements";
 import { useUploadImage } from "@/hooks/use-uploads";
@@ -65,6 +64,8 @@ const CreateAchievementPage = () => {
     uploadImage.mutate(file, {
       onError: (error) => toast.error(error.message),
       onSuccess: (res) => {
+        if (!res.file) return;
+
         createAchievement.mutate(
           {
             ...values,
@@ -104,10 +105,7 @@ const CreateAchievementPage = () => {
                   {!preview ? (
                     <Label
                       htmlFor="image-upload"
-                      className={cn(
-                        "group flex min-h-[260px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all",
-                        "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40",
-                      )}
+                      className="group flex min-h-65 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40"
                     >
                       <div className="flex flex-col items-center justify-center space-y-4 p-6 text-center">
                         <div className="flex size-16 items-center justify-center rounded-full bg-muted">
@@ -134,7 +132,7 @@ const CreateAchievementPage = () => {
                     </Label>
                   ) : (
                     <div className="relative overflow-hidden rounded-2xl border">
-                      <img src={preview} alt="Preview" className="h-[320px] w-full object-cover" />
+                      <img src={preview} alt="Preview" className="h-80 w-full object-cover" />
                       <div className="absolute inset-0 bg-black/0 transition-all hover:bg-black/20" />
                       <Button
                         type="button"
@@ -189,7 +187,7 @@ const CreateAchievementPage = () => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Achievement Type</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select achievement type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -213,7 +211,7 @@ const CreateAchievementPage = () => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Achievement Rarity</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select achievement rarity" />
                       </SelectTrigger>
                       <SelectContent>
@@ -232,7 +230,7 @@ const CreateAchievementPage = () => {
               <Button
                 type="submit"
                 disabled={createAchievement.isPending || uploadImage.isPending}
-                className="min-w-[160px]"
+                className="min-w-40"
               >
                 {createAchievement.isPending || uploadImage.isPending ? (
                   <>

@@ -84,7 +84,7 @@ const GrantAchievementForm = ({ achievement }: GrantAchievementFormProps) => {
               )}
             />
           </FieldGroup>
-          <Button type="submit" disabled={grantAchievement.isPending} className="min-w-[160px]">
+          <Button type="submit" disabled={grantAchievement.isPending} className="min-w-40">
             {grantAchievement.isPending ? (
               <>
                 <Loader2 className="mr-2 size-4 animate-spin" />

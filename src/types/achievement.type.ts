@@ -25,8 +25,8 @@ export interface UseAchievementsParams {
   page?: number;
   limit?: number;
   search?: string;
-  achievementType?: AchievementType;
-  achievementRarity?: AchievementRarity;
+  achievementType?: AchievementType | null;
+  achievementRarity?: AchievementRarity | null;
 }
 
 export interface UserAchievement {

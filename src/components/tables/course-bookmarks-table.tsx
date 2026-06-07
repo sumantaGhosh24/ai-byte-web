@@ -27,7 +27,7 @@ const CourseBookmarksTable = () => {
   const [userId, setUserId] = useState("");
 
   const { data, isLoading, isFetching, refetch, isError, error } = useBookmarks({
-    courseId: id,
+    courseId: id as string,
     page,
     limit,
     userId,
@@ -133,7 +133,7 @@ const CourseBookmarksTable = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

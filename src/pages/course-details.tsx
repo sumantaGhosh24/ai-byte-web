@@ -39,67 +39,67 @@ const CourseDetailsPage = () => {
     <div className="space-y-6 p-6">
       <Card className="overflow-hidden">
         <img
-          src={course.thumbnailUrl}
-          alt={course.title}
-          className="h-[350px] w-full object-cover"
+          src={course?.thumbnailUrl}
+          alt={course?.title}
+          className="h-87.5 w-full object-cover"
         />
         <CardContent className="space-y-6 p-6">
           <div>
-            <h1 className="text-3xl font-bold capitalize">{course.title}</h1>
-            <p className="mt-3 text-muted-foreground">{course.description}</p>
+            <h1 className="text-3xl font-bold capitalize">{course?.title}</h1>
+            <p className="mt-3 text-muted-foreground">{course?.description}</p>
           </div>
           <div className="mt-6 flex items-center gap-4">
             <img
-              src={course.category.imageUrl}
-              alt={course.category.name}
+              src={course?.category?.imageUrl}
+              alt={course?.category?.name}
               className="h-12 w-12 rounded-md object-cover border"
             />
-            <span className="text-lg font-semibold capitalize">{course.category.name}</span>
+            <span className="text-lg font-semibold capitalize">{course?.category?.name}</span>
           </div>
           <div className="flex flex-wrap gap-3">
             <Badge
               variant={
-                course.difficulty === "beginner"
+                course?.difficulty === "beginner"
                   ? "success"
-                  : course.difficulty === "intermediate"
+                  : course?.difficulty === "intermediate"
                     ? "default"
                     : "destructive"
               }
             >
-              {course.difficulty}
+              {course?.difficulty}
             </Badge>
-            <Badge variant={course.aiGenerated ? "warning" : "success"}>
-              {course.aiGenerated ? "True" : "False"}
+            <Badge variant={course?.aiGenerated ? "warning" : "success"}>
+              {course?.aiGenerated ? "True" : "False"}
             </Badge>
-            <Badge>{course.duration}</Badge>
-            <Badge variant={course.visibility === "public" ? "success" : "warning"}>
-              {course.visibility}
+            <Badge>{course?.duration}</Badge>
+            <Badge variant={course?.visibility === "public" ? "success" : "warning"}>
+              {course?.visibility}
             </Badge>
             <Badge
               variant={
-                course.status === "completed"
+                course?.status === "completed"
                   ? "success"
-                  : course.status === "processing"
+                  : course?.status === "processing"
                     ? "warning"
-                    : course.status === "pending"
+                    : course?.status === "pending"
                       ? "warning"
                       : "destructive"
               }
             >
-              {course.status}
+              {course?.status}
             </Badge>
           </div>
           <div className="grid gap-4 sm:grid-cols-3 xl:grid-cols-4">
-            <StatsCard title="Lessons" value={course.lessonsCount} />
-            <StatsCard title="Bookmarks" value={course.bookmarksCount} />
-            <StatsCard title="Quizzes" value={course.quizzesCount} />
-            <StatsCard title="Enrolls" value={course.enrollsCount} />
-            <StatsCard title="Reviews" value={course.reviewsCount} />
+            <StatsCard title="Lessons" value={course?.lessonsCount} />
+            <StatsCard title="Bookmarks" value={course?.bookmarksCount} />
+            <StatsCard title="Quizzes" value={course?.quizzesCount} />
+            <StatsCard title="Enrolls" value={course?.enrollsCount} />
+            <StatsCard title="Reviews" value={course?.reviewsCount} />
           </div>
         </CardContent>
       </Card>
       <Tabs defaultValue="lessons" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5 lg:w-[400px]">
+        <TabsList className="grid w-full grid-cols-5 lg:w-100">
           <TabsTrigger value="lessons">Lessons</TabsTrigger>
           <TabsTrigger value="enrolls">Enrolls</TabsTrigger>
           <TabsTrigger value="bookmarks">Bookmarks</TabsTrigger>

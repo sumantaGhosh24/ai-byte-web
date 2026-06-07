@@ -27,7 +27,7 @@ const QuizAttemptsTable = () => {
   const { data, isLoading, isFetching, refetch, isError, error } = useQuizAttempts({
     page,
     limit,
-    quizId: id,
+    quizId: id as string,
   });
 
   const columns = useMemo<ColumnDef<QuizAttemptItem>[]>(
@@ -146,7 +146,7 @@ const QuizAttemptsTable = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

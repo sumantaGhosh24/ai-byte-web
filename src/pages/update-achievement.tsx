@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { AlertTriangle, ImagePlus, Loader2, Upload, X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { achievementSchema, type AchievementFormValues } from "@/schemas/achievement.schema";
 import { useAchievement, useUpdateAchievement } from "@/hooks/use-achievements";
 import { useDestroyFile, useUploadImage } from "@/hooks/use-uploads";
@@ -81,16 +80,23 @@ const UpdateAchievementPage = () => {
   };
 
   const onSubmit = (values: AchievementFormValues) => {
+    if (!data?.achievement?.id) return;
+
     if (file) {
-      deleteImage.mutate(
-        { public_id: data?.achievement?.badgeImagePublicId },
-        {
-          onError: (error) => toast.error(error.message),
-        },
-      );
+      if (data?.achievement?.badgeImagePublicId) {
+        deleteImage.mutate(
+          { public_id: data?.achievement?.badgeImagePublicId },
+          {
+            onError: (error) => toast.error(error.message),
+          },
+        );
+      }
+
       uploadImage.mutate(file, {
         onError: (error) => toast.error(error.message),
         onSuccess: (res) => {
+          if (!res.file) return;
+
           updateAchievement.mutate(
             {
               ...values,
@@ -159,10 +165,7 @@ const UpdateAchievementPage = () => {
                   {!preview ? (
                     <Label
                       htmlFor="image-upload"
-                      className={cn(
-                        "group flex min-h-[260px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all",
-                        "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40",
-                      )}
+                      className="group flex min-h-65 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40"
                     >
                       <div className="flex flex-col items-center justify-center space-y-4 p-6 text-center">
                         <div className="flex size-16 items-center justify-center rounded-full bg-muted">
@@ -189,7 +192,7 @@ const UpdateAchievementPage = () => {
                     </Label>
                   ) : (
                     <div className="relative overflow-hidden rounded-2xl border">
-                      <img src={preview} alt="Preview" className="h-[320px] w-full object-cover" />
+                      <img src={preview} alt="Preview" className="h-80 w-full object-cover" />
                       <div className="absolute inset-0 bg-black/0 transition-all hover:bg-black/20" />
                       <Button
                         type="button"
@@ -248,7 +251,7 @@ const UpdateAchievementPage = () => {
                       defaultValue={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select achievement type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -276,7 +279,7 @@ const UpdateAchievementPage = () => {
                       defaultValue={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select achievement rarity" />
                       </SelectTrigger>
                       <SelectContent>
@@ -295,7 +298,7 @@ const UpdateAchievementPage = () => {
               <Button
                 type="submit"
                 disabled={updateAchievement.isPending || uploadImage.isPending}
-                className="min-w-[160px]"
+                className="min-w-40"
               >
                 {updateAchievement.isPending || uploadImage.isPending ? (
                   <>

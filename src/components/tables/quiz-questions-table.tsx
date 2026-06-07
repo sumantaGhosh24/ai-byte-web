@@ -69,7 +69,7 @@ const QuizQuestionsTable = () => {
           const question = row.original;
 
           return (
-            <div className="max-w-[350px]">
+            <div className="max-w-87.5">
               <p className="font-medium line-clamp-2">{question.question}</p>
               {question.explanation && (
                 <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
@@ -153,7 +153,7 @@ const QuizQuestionsTable = () => {
         header: "Correct Answer",
         cell: ({ row }) => {
           return (
-            <div className="max-w-[180px] truncate font-medium text-green-600">
+            <div className="max-w-45 truncate font-medium text-green-600">
               {row.original.correctAnswer}
             </div>
           );
@@ -236,7 +236,7 @@ const QuizQuestionsTable = () => {
             </CardDescription>
           </div>
           <div className="flex gap-4">
-            <CreateQuestionForm disabled={isLoading || isFetching} quizId={id} />
+            <CreateQuestionForm disabled={isLoading || isFetching} quizId={id as string} />
             <Button variant="warning" onClick={() => refetch()} disabled={isLoading || isFetching}>
               Refresh
             </Button>
@@ -308,7 +308,7 @@ const QuizQuestionsTable = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

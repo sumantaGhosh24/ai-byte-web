@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { ImagePlus, Loader2, Upload, Video, X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { lessonSchema, type LessonFormValues } from "@/schemas/lesson.schema";
 import { useCreateLesson } from "@/hooks/use-lessons";
 import { useUploadImage, useUploadVideo } from "@/hooks/use-uploads";
@@ -92,6 +91,8 @@ const CreateLessonPage = () => {
       onSuccess: (thumbnail) => {
         uploadVideo.mutate(videoFile, {
           onSuccess: (video) => {
+            if (!video.file || !thumbnail.file) return;
+
             createLesson.mutate(
               {
                 ...values,
@@ -147,10 +148,7 @@ const CreateLessonPage = () => {
                   {!thumbnailPreview ? (
                     <Label
                       htmlFor="image-upload"
-                      className={cn(
-                        "group flex min-h-[260px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all",
-                        "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40",
-                      )}
+                      className="group flex min-h-65 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40"
                     >
                       <div className="flex flex-col items-center justify-center space-y-4 p-6 text-center">
                         <div className="flex size-16 items-center justify-center rounded-full bg-muted">
@@ -180,7 +178,7 @@ const CreateLessonPage = () => {
                       <img
                         src={thumbnailPreview}
                         alt="Preview"
-                        className="h-[320px] w-full object-cover"
+                        className="h-80 w-full object-cover"
                       />
                       <div className="absolute inset-0 bg-black/0 transition-all hover:bg-black/20" />
                       <Button
@@ -202,10 +200,7 @@ const CreateLessonPage = () => {
                   {!videoPreview ? (
                     <Label
                       htmlFor="video-upload"
-                      className={cn(
-                        "group flex min-h-[260px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed",
-                        "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40",
-                      )}
+                      className="group flex min-h-65 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40"
                     >
                       <div className="flex flex-col items-center justify-center space-y-4 p-6 text-center">
                         <div className="flex size-16 items-center justify-center rounded-full bg-muted">
@@ -232,11 +227,7 @@ const CreateLessonPage = () => {
                     </Label>
                   ) : (
                     <div className="relative overflow-hidden rounded-2xl border">
-                      <video
-                        src={videoPreview}
-                        controls
-                        className="max-h-[500px] w-full bg-black"
-                      />
+                      <video src={videoPreview} controls className="max-h-125 w-full bg-black" />
                       <Button
                         type="button"
                         size="icon"
@@ -302,7 +293,7 @@ const CreateLessonPage = () => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Lesson Difficulty</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select lesson difficulty" />
                       </SelectTrigger>
                       <SelectContent>
@@ -324,7 +315,7 @@ const CreateLessonPage = () => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Lesson Visibility</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select lesson visibility" />
                       </SelectTrigger>
                       <SelectContent>
@@ -341,7 +332,7 @@ const CreateLessonPage = () => {
               <Button
                 type="submit"
                 disabled={createLesson.isPending || uploadImage.isPending || uploadVideo.isPending}
-                className="min-w-[160px]"
+                className="min-w-40"
               >
                 {createLesson.isPending || uploadImage.isPending || uploadVideo.isPending ? (
                   <>

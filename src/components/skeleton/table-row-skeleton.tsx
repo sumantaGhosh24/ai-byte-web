@@ -12,8 +12,8 @@ const TableRowSkeleton = ({ count }: TableRowSkeletonProps) => {
         <div className="flex items-center gap-3">
           <Skeleton className="h-16 w-24 rounded-lg" />
           <div className="space-y-2">
-            <Skeleton className="h-4 w-[200px]" />
-            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-50" />
+            <Skeleton className="h-4 w-62.5" />
           </div>
         </div>
       </TableCell>

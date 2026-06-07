@@ -64,7 +64,8 @@ const CreateQuestionForm = ({ disabled, quizId }: CreateQuestionFormProps) => {
     // eslint-disable-next-line react-hooks/incompatible-library
     const subscription = form.watch((values) => {
       const options = values.options ?? [];
-      const idx = options.findIndex((option: { isCorrect: boolean }) => option && option.isCorrect);
+      // const idx = options.findIndex((option: { isCorrect: boolean }) => option && option.isCorrect);
+      const idx = options.findIndex((option) => option?.isCorrect === true);
       setSelectedCorrectIndex(idx >= 0 ? idx : 0);
     });
     return () => subscription.unsubscribe();
@@ -112,7 +113,7 @@ const CreateQuestionForm = ({ disabled, quizId }: CreateQuestionFormProps) => {
         <div>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FieldGroup>
-              <ScrollArea className="h-[700px]">
+              <ScrollArea className="h-175">
                 <Controller
                   control={form.control}
                   name="question"
@@ -153,7 +154,7 @@ const CreateQuestionForm = ({ disabled, quizId }: CreateQuestionFormProps) => {
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={field.name}>Question Difficulty</FieldLabel>
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-45">
                           <SelectValue placeholder="Select question difficulty" />
                         </SelectTrigger>
                         <SelectContent>
@@ -175,7 +176,7 @@ const CreateQuestionForm = ({ disabled, quizId }: CreateQuestionFormProps) => {
                     <Field data-invalid={fieldState.invalid} className="my-5">
                       <FieldLabel htmlFor={field.name}>Question Visibility</FieldLabel>
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-45">
                           <SelectValue placeholder="Select question visibility" />
                         </SelectTrigger>
                         <SelectContent>
@@ -222,7 +223,7 @@ const CreateQuestionForm = ({ disabled, quizId }: CreateQuestionFormProps) => {
                   </RadioGroup>
                 </div>
               </ScrollArea>
-              <Button type="submit" disabled={createQuestion.isPending} className="min-w-[160px]">
+              <Button type="submit" disabled={createQuestion.isPending} className="min-w-40">
                 {createQuestion.isPending ? (
                   <>
                     <Loader2 className="mr-2 size-4 animate-spin" />

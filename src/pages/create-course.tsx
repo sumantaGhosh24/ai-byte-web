@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { ImagePlus, Loader2, Upload, X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { courseSchema, type CourseFormValues } from "@/schemas/course.schema";
 import { useCategories } from "@/hooks/use-categories";
 import { useCreateCourse } from "@/hooks/use-courses";
@@ -71,6 +70,8 @@ const CreateCoursePage = () => {
     uploadImage.mutate(file, {
       onError: (error) => toast.error(error.message),
       onSuccess: (res) => {
+        if (!res.file) return;
+
         createCourse.mutate(
           {
             ...values,
@@ -112,10 +113,7 @@ const CreateCoursePage = () => {
                   {!preview ? (
                     <Label
                       htmlFor="image-upload"
-                      className={cn(
-                        "group flex min-h-[260px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all",
-                        "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40",
-                      )}
+                      className="group flex min-h-65 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40"
                     >
                       <div className="flex flex-col items-center justify-center space-y-4 p-6 text-center">
                         <div className="flex size-16 items-center justify-center rounded-full bg-muted">
@@ -142,7 +140,7 @@ const CreateCoursePage = () => {
                     </Label>
                   ) : (
                     <div className="relative overflow-hidden rounded-2xl border">
-                      <img src={preview} alt="Preview" className="h-[320px] w-full object-cover" />
+                      <img src={preview} alt="Preview" className="h-80 w-full object-cover" />
                       <div className="absolute inset-0 bg-black/0 transition-all hover:bg-black/20" />
                       <Button
                         type="button"
@@ -214,12 +212,12 @@ const CreateCoursePage = () => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Course Category</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select course category" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          {categories.categories.map((category) => (
+                          {categories?.categories?.map((category) => (
                             <SelectItem key={category.id} value={category.id}>
                               {category.name}
                             </SelectItem>
@@ -238,7 +236,7 @@ const CreateCoursePage = () => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Course Difficulty</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select course difficulty" />
                       </SelectTrigger>
                       <SelectContent>
@@ -260,7 +258,7 @@ const CreateCoursePage = () => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Course Visibility</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select course visibility" />
                       </SelectTrigger>
                       <SelectContent>
@@ -277,7 +275,7 @@ const CreateCoursePage = () => {
               <Button
                 type="submit"
                 disabled={createCourse.isPending || uploadImage.isPending}
-                className="min-w-[160px]"
+                className="min-w-40"
               >
                 {createCourse.isPending || uploadImage.isPending ? (
                   <>

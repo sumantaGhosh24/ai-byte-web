@@ -131,7 +131,7 @@ const CreateQuizPage = () => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Quiz Difficulty</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select quiz difficulty" />
                       </SelectTrigger>
                       <SelectContent>
@@ -153,7 +153,7 @@ const CreateQuizPage = () => {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>Quiz Visibility</FieldLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select quiz visibility" />
                       </SelectTrigger>
                       <SelectContent>
@@ -167,7 +167,7 @@ const CreateQuizPage = () => {
                   </Field>
                 )}
               />
-              <Button type="submit" disabled={createQuiz.isPending} className="min-w-[160px]">
+              <Button type="submit" disabled={createQuiz.isPending} className="min-w-40">
                 {createQuiz.isPending ? (
                   <>
                     <Loader2 className="mr-2 size-4 animate-spin" />

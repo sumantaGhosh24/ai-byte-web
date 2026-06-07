@@ -51,7 +51,7 @@ const CourseLessonsTable = () => {
     page,
     limit,
     search,
-    courseId: id,
+    courseId: id as string,
     difficulty: difficulty === "all" ? null : difficulty,
     visibility: visibility === "all" ? null : visibility,
     status: status === "all" ? null : status,
@@ -70,7 +70,7 @@ const CourseLessonsTable = () => {
           const lesson = row.original;
 
           return (
-            <div className="flex items-center gap-3 max-w-[450px]">
+            <div className="flex items-center gap-3 max-w-112.5">
               <img
                 src={lesson.thumbnailUrl ?? "/dummy.png"}
                 alt={lesson.thumbnailPublicId ?? "dummy"}
@@ -343,7 +343,7 @@ const CourseLessonsTable = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

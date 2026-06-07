@@ -18,7 +18,7 @@ const FixLessonsOrderPage = () => {
     isLoading,
     isError,
     error,
-  } = useLessons({ page: 1, limit: 50, courseId: id });
+  } = useLessons({ page: 1, limit: 50, courseId: id as string });
 
   if (isLoading || isFetching) {
     return <LessonOrderSkeleton />;
@@ -52,7 +52,7 @@ const FixLessonsOrderPage = () => {
         </CardHeader>
         <Separator />
         <CardContent className="pt-6">
-          <LessonOrderManager courseId={id} lessons={lessons?.result?.items ?? []} />
+          <LessonOrderManager courseId={id as string} lessons={lessons?.result?.items ?? []} />
         </CardContent>
       </Card>
     </div>

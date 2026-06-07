@@ -10,9 +10,9 @@ export interface UseQuestionsParams {
   page?: number;
   limit?: number;
   search?: string;
-  difficulty?: QuestionDifficulty;
-  visibility?: QuestionVisibility;
-  status?: QuestionStatus;
+  difficulty?: QuestionDifficulty | null;
+  visibility?: QuestionVisibility | null;
+  status?: QuestionStatus | null;
   quizId?: string;
 }
 

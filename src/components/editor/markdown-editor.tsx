@@ -14,7 +14,7 @@ const MarkdownEditor = ({ value, onChange }: MarkdownEditorProps) => {
     <div data-color-mode="dark">
       <MDEditor
         value={value}
-        onChange={(val) => onChange(val)}
+        onChange={(val) => onChange(val as string)}
         height={500}
         previewOptions={{ rehypePlugins: [[rehypeSanitize]] }}
       />

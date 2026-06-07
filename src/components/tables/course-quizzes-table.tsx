@@ -45,7 +45,7 @@ const CourseQuizzesTable = () => {
     page,
     limit,
     search,
-    courseId: id,
+    courseId: id as string,
     difficulty: difficulty === "all" ? null : difficulty,
     visibility: visibility === "all" ? null : visibility,
     status: status === "all" ? null : status,
@@ -64,7 +64,7 @@ const CourseQuizzesTable = () => {
           return (
             <div className="space-y-1">
               <p className="font-medium truncate">{quiz.title}</p>
-              <p className="max-w-[250px] truncate text-xs text-muted-foreground">
+              <p className="max-w-62.5 truncate text-xs text-muted-foreground">
                 {quiz.description}
               </p>
             </div>
@@ -309,7 +309,7 @@ const CourseQuizzesTable = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

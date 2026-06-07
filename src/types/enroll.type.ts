@@ -50,5 +50,5 @@ export interface UseEnrollsParams {
   limit?: number;
   courseId?: string;
   userId?: string;
-  completed?: boolean;
+  completed?: boolean | null;
 }

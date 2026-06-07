@@ -54,10 +54,10 @@ export interface UseCoursesParams {
   page?: number;
   limit?: number;
   search?: string;
-  categoryId?: string;
-  difficulty?: CourseDifficulty;
-  visibility?: CourseVisibility;
-  status?: CourseStatus;
+  categoryId?: string | null;
+  difficulty?: CourseDifficulty | null;
+  visibility?: CourseVisibility | null;
+  status?: CourseStatus | null;
 }
 
 export interface CreateCoursePayload {

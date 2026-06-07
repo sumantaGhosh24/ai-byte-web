@@ -89,7 +89,10 @@ const CourseEnrollsTable = () => {
       {
         accessorKey: "finishedAt",
         header: "Finished",
-        cell: ({ row }) => formatDistanceToNowStrict(row.original.finishedAt, { addSuffix: true }),
+        cell: ({ row }) =>
+          row.original.finishedAt
+            ? formatDistanceToNowStrict(row.original.finishedAt, { addSuffix: true })
+            : "-",
       },
     ],
     [],
@@ -163,7 +166,7 @@ const CourseEnrollsTable = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

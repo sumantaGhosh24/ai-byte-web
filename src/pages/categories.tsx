@@ -61,7 +61,7 @@ const CategoriesPage = () => {
         cell: ({ row }) => {
           const name = row.original.name;
 
-          return <p className="capitalize w-[100px]">{name}</p>;
+          return <p className="capitalize w-25">{name}</p>;
         },
       },
       {
@@ -72,11 +72,7 @@ const CategoriesPage = () => {
 
           return (
             <div>
-              <img
-                src={category.imageUrl}
-                alt={category.imagePublicId}
-                className="w-[100px] rounded"
-              />
+              <img src={category.imageUrl} alt={category.imagePublicId} className="w-25 rounded" />
             </div>
           );
         },
@@ -200,7 +196,7 @@ const CategoriesPage = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

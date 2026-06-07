@@ -100,7 +100,8 @@ const UpdateQuestionForm = ({ question, disabled }: UpdateQuestionFormProps) => 
     // eslint-disable-next-line react-hooks/incompatible-library
     const subscription = form.watch((values) => {
       const options = values.options ?? [];
-      const idx = options.findIndex((option: { isCorrect: boolean }) => option && option.isCorrect);
+      // const idx = options.findIndex((option: { isCorrect: boolean }) => option && option.isCorrect);
+      const idx = options.findIndex((option) => option?.isCorrect === true);
       setSelectedCorrectIndex(idx >= 0 ? idx : 0);
     });
     return () => subscription.unsubscribe();
@@ -151,7 +152,7 @@ const UpdateQuestionForm = ({ question, disabled }: UpdateQuestionFormProps) => 
         <div>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FieldGroup>
-              <ScrollArea className="h-[700px]">
+              <ScrollArea className="h-175">
                 <Controller
                   control={form.control}
                   name="question"
@@ -192,7 +193,7 @@ const UpdateQuestionForm = ({ question, disabled }: UpdateQuestionFormProps) => 
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={field.name}>Question Difficulty</FieldLabel>
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-45">
                           <SelectValue placeholder="Select question difficulty" />
                         </SelectTrigger>
                         <SelectContent>
@@ -214,7 +215,7 @@ const UpdateQuestionForm = ({ question, disabled }: UpdateQuestionFormProps) => 
                     <Field data-invalid={fieldState.invalid} className="my-5">
                       <FieldLabel htmlFor={field.name}>Question Visibility</FieldLabel>
                       <Select value={field.value} onValueChange={field.onChange}>
-                        <SelectTrigger className="w-[180px]">
+                        <SelectTrigger className="w-45">
                           <SelectValue placeholder="Select question visibility" />
                         </SelectTrigger>
                         <SelectContent>
@@ -261,7 +262,7 @@ const UpdateQuestionForm = ({ question, disabled }: UpdateQuestionFormProps) => 
                   </RadioGroup>
                 </div>
               </ScrollArea>
-              <Button type="submit" disabled={updateQuestion.isPending} className="min-w-[160px]">
+              <Button type="submit" disabled={updateQuestion.isPending} className="min-w-40">
                 {updateQuestion.isPending ? (
                   <>
                     <Loader2 className="mr-2 size-4 animate-spin" />

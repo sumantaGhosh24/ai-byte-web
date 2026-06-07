@@ -30,7 +30,7 @@ import AchievementBadge from "@/components/badge/achievement-card-user";
 const ProfileDetails = () => {
   const { id } = useParams();
 
-  const { data, isLoading, isFetching, isError, error } = useUser(id);
+  const { data, isLoading, isFetching, isError, error } = useUser(id as string);
 
   const {
     data: achievements,
@@ -48,9 +48,9 @@ const ProfileDetails = () => {
 
   const xp = userData?.xp;
 
-  const level = Math.floor(xp?.totalXP / 1000) + 1;
+  const level = Math.floor(xp!.totalXP / 1000) + 1;
 
-  const currentLevelXP = xp?.totalXP % 1000;
+  const currentLevelXP = xp!.totalXP % 1000;
 
   const nextLevelXP = 1000;
 
@@ -156,26 +156,26 @@ const ProfileDetails = () => {
               <Avatar className="h-32 w-32 border-4 border-background shadow-xl">
                 <AvatarImage src={user?.profile?.avatarUrl as string} />
                 <AvatarFallback className="text-4xl font-bold">
-                  {user.profile?.name?.charAt(0) || "U"}
+                  {user?.profile?.name?.charAt(0) || "U"}
                 </AvatarFallback>
               </Avatar>
               <div className="space-y-3">
                 <div>
                   <h1 className="text-3xl font-bold tracking-tight">
-                    {user.profile?.name || "Unnamed User"}
+                    {user?.profile?.name || "Unnamed User"}
                   </h1>
                   <p className="text-muted-foreground">
-                    @{user.profile?.username || "no-username"}
+                    @{user?.profile?.username || "no-username"}
                   </p>
-                  <p className="mt-1 text-sm text-muted-foreground">{user.email}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{user?.email}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge
-                    variant={user.role === "admin" ? "default" : "secondary"}
+                    variant={user?.role === "admin" ? "default" : "secondary"}
                     className="capitalize"
                   >
-                    {user.role === "admin" && <Shield className="mr-1 h-3 w-3" />}
-                    {user.role}
+                    {user?.role === "admin" && <Shield className="mr-1 h-3 w-3" />}
+                    {user?.role}
                   </Badge>
                   <Badge variant="outline">
                     <Zap className="mr-1 h-3 w-3" />
@@ -183,7 +183,7 @@ const ProfileDetails = () => {
                   </Badge>
                   <Badge variant="outline">
                     <Flame className="mr-1 h-3 w-3 text-orange-500" />
-                    {stats.currentStreak} Day Streak
+                    {stats?.currentStreak} Day Streak
                   </Badge>
                 </div>
               </div>
@@ -202,7 +202,7 @@ const ProfileDetails = () => {
                 <Progress value={xpProgress} />
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-2xl font-bold">{xp.totalXP.toLocaleString()}</p>
+                    <p className="text-2xl font-bold">{xp?.totalXP?.toLocaleString()}</p>
                     <p className="text-sm text-muted-foreground">Total XP</p>
                   </div>
                   <div className="rounded-xl bg-primary/10 p-3">
@@ -215,7 +215,7 @@ const ProfileDetails = () => {
         </CardContent>
       </Card>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {statCards.map((item) => {
+        {statCards?.map((item) => {
           const Icon = item.icon;
 
           return (
@@ -235,7 +235,7 @@ const ProfileDetails = () => {
         })}
       </div>
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3 lg:w-[400px]">
+        <TabsList className="grid w-full grid-cols-3 lg:w-100">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="xp">XP Analytics</TabsTrigger>
           <TabsTrigger value="activity">Activity</TabsTrigger>
@@ -255,33 +255,33 @@ const ProfileDetails = () => {
                   <div>
                     <div className="mb-2 flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Average Score</span>
-                      <span className="font-medium">{Number(stats.averageScore).toFixed(1)}%</span>
+                      <span className="font-medium">{Number(stats?.averageScore).toFixed(1)}%</span>
                     </div>
-                    <Progress value={Number(stats.averageScore)} />
+                    <Progress value={Number(stats?.averageScore)} />
                   </div>
                   <div>
                     <div className="mb-2 flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Highest Score</span>
-                      <span className="font-medium">{Number(stats.highestScore).toFixed(1)}%</span>
+                      <span className="font-medium">{Number(stats?.highestScore).toFixed(1)}%</span>
                     </div>
-                    <Progress value={Number(stats.highestScore)} />
+                    <Progress value={Number(stats?.highestScore)} />
                   </div>
                   <div>
                     <div className="mb-2 flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Lowest Score</span>
-                      <span className="font-medium">{Number(stats.lowestScore).toFixed(1)}%</span>
+                      <span className="font-medium">{Number(stats?.lowestScore).toFixed(1)}%</span>
                     </div>
-                    <Progress value={Number(stats.lowestScore)} />
+                    <Progress value={Number(stats?.lowestScore)} />
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 rounded-xl border p-4">
                   <div>
                     <p className="text-sm text-muted-foreground">Total Attempts</p>
-                    <p className="text-2xl font-bold">{stats.totalQuizAttempts}</p>
+                    <p className="text-2xl font-bold">{stats?.totalQuizAttempts}</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Answer Submissions</p>
-                    <p className="text-2xl font-bold">{stats.totalAnswerSubmissions}</p>
+                    <p className="text-2xl font-bold">{stats?.totalAnswerSubmissions}</p>
                   </div>
                 </div>
               </CardContent>
@@ -303,7 +303,7 @@ const ProfileDetails = () => {
                     <div>
                       <p className="font-medium">Last Enrolled Course</p>
                       <p className="text-sm text-muted-foreground">
-                        {userData.lastEnroll || "No enrollments yet"}
+                        {userData?.lastEnroll || "No enrollments yet"}
                       </p>
                     </div>
                   </div>
@@ -316,7 +316,7 @@ const ProfileDetails = () => {
                     <div>
                       <p className="font-medium">Last Lesson Progress</p>
                       <p className="text-sm text-muted-foreground">
-                        {userData.lastProgress || "No progress yet"}
+                        {userData?.lastProgress || "No progress yet"}
                       </p>
                     </div>
                   </div>
@@ -329,7 +329,7 @@ const ProfileDetails = () => {
                     <div>
                       <p className="font-medium">Learning Streak</p>
                       <p className="text-sm text-muted-foreground">
-                        Current: {stats.currentStreak} days • Best: {stats.longestStreak} days
+                        Current: {stats?.currentStreak} days • Best: {stats?.longestStreak} days
                       </p>
                     </div>
                   </div>
@@ -342,7 +342,7 @@ const ProfileDetails = () => {
                     <div>
                       <p className="font-medium">Achievement Progress</p>
                       <p className="text-sm text-muted-foreground">
-                        {stats.achievementsCount} achievements unlocked
+                        {stats?.achievementsCount} achievements unlocked
                       </p>
                     </div>
                   </div>
@@ -360,7 +360,7 @@ const ProfileDetails = () => {
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="flex flex-wrap gap-3">
-                {achievements?.achievements.map((achievement) => (
+                {achievements?.achievements?.map((achievement) => (
                   <AchievementBadge achievement={achievement} key={achievement.id} />
                 ))}
               </div>
@@ -369,7 +369,7 @@ const ProfileDetails = () => {
         </TabsContent>
         <TabsContent value="xp" className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {xpCards.map((item) => {
+            {xpCards?.map((item) => {
               const Icon = item.icon;
 
               return (
@@ -387,16 +387,16 @@ const ProfileDetails = () => {
               );
             })}
           </div>
-
           <Card>
             <CardHeader>
               <CardTitle>Total XP Breakdown</CardTitle>
               <CardDescription>Overall user progression system</CardDescription>
             </CardHeader>
-
             <CardContent className="space-y-5">
-              {xpCards.map((item) => {
-                const percentage = (item.value / xp.totalXP) * 100;
+              {xpCards?.map((item) => {
+                if (!item?.value || !xp?.totalXP) return;
+
+                const percentage = (item?.value / xp?.totalXP) * 100;
 
                 return (
                   <div key={item.title} className="space-y-2">
@@ -423,25 +423,25 @@ const ProfileDetails = () => {
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Full Name</p>
-                  <p className="font-medium">{user.profile?.name || "N/A"}</p>
+                  <p className="font-medium">{user?.profile?.name || "N/A"}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Username</p>
-                  <p className="font-medium">@{user.profile?.username || "N/A"}</p>
+                  <p className="font-medium">@{user?.profile?.username || "N/A"}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Email Address</p>
-                  <p className="font-medium">{user.email}</p>
+                  <p className="font-medium">{user?.email}</p>
                 </div>
               </div>
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Role</p>
-                  <p className="font-medium capitalize">{user.role}</p>
+                  <p className="font-medium capitalize">{user?.role}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Total XP</p>
-                  <p className="font-medium">{xp.totalXP}</p>
+                  <p className="font-medium">{xp?.totalXP}</p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Current Level</p>

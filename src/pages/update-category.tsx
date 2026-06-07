@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { AlertTriangle, ImagePlus, Loader2, Upload, X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { categorySchema, type CategoryFormValues } from "@/schemas/category.schema";
 import { useCategory, useUpdateCategory } from "@/hooks/use-categories";
 import { useDestroyFile, useUploadImage } from "@/hooks/use-uploads";
@@ -29,7 +28,7 @@ import FormSkeleton from "@/components/skeleton/form-skeleton";
 const UpdateCategoryPage = () => {
   const { id } = useParams();
 
-  const { data, isFetching, isLoading, isError, error } = useCategory(id);
+  const { data, isFetching, isLoading, isError, error } = useCategory(id as string);
 
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -77,12 +76,14 @@ const UpdateCategoryPage = () => {
 
   const onSubmit = (values: CategoryFormValues) => {
     if (file) {
-      deleteImage.mutate(
-        { public_id: data.category.imagePublicId },
-        {
-          onError: (error) => toast.error(error.message),
-        },
-      );
+      if (data?.category?.imagePublicId) {
+        deleteImage.mutate(
+          { public_id: data?.category?.imagePublicId },
+          {
+            onError: (error) => toast.error(error.message),
+          },
+        );
+      }
 
       uploadImage.mutate(file, {
         onError: (error) => toast.error(error.message),
@@ -91,7 +92,7 @@ const UpdateCategoryPage = () => {
 
           updateCategory.mutate(
             {
-              id: data?.category?.id,
+              id: data?.category?.id as string,
               name: values.name,
               imageUrl: res?.file?.url,
               imagePublicId: res?.file?.public_id,
@@ -110,7 +111,7 @@ const UpdateCategoryPage = () => {
       });
     } else {
       updateCategory.mutate(
-        { id: data.category.id, name: values.name, visibility: values.visibility },
+        { id: data?.category?.id as string, name: values.name, visibility: values.visibility },
         {
           onError: (error) => toast.error(error.message),
           onSuccess: (data) => {
@@ -171,10 +172,7 @@ const UpdateCategoryPage = () => {
                   {!preview ? (
                     <Label
                       htmlFor="image-upload"
-                      className={cn(
-                        "group flex min-h-[260px] cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all",
-                        "border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40",
-                      )}
+                      className="group flex min-h-65 cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/40"
                     >
                       <div className="flex flex-col items-center justify-center space-y-4 p-6 text-center">
                         <div className="flex size-16 items-center justify-center rounded-full bg-muted">
@@ -201,7 +199,7 @@ const UpdateCategoryPage = () => {
                     </Label>
                   ) : (
                     <div className="relative overflow-hidden rounded-2xl border">
-                      <img src={preview} alt="Preview" className="h-[320px] w-full object-cover" />
+                      <img src={preview} alt="Preview" className="h-80 w-full object-cover" />
                       <div className="absolute inset-0 bg-black/0 transition-all hover:bg-black/20" />
                       <Button
                         type="button"
@@ -227,7 +225,7 @@ const UpdateCategoryPage = () => {
                       defaultValue={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-45">
                         <SelectValue placeholder="Select category visibility" />
                       </SelectTrigger>
                       <SelectContent>
@@ -246,7 +244,7 @@ const UpdateCategoryPage = () => {
                 disabled={
                   updateCategory.isPending || uploadImage.isPending || deleteImage.isPending
                 }
-                className="min-w-[160px]"
+                className="min-w-40"
               >
                 {updateCategory.isPending || uploadImage.isPending || deleteImage.isPending ? (
                   <>

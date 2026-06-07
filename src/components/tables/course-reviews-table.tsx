@@ -29,7 +29,7 @@ const CourseReviewsTable = () => {
   const { data, isLoading, isFetching, refetch, isError, error } = useReviews({
     page,
     limit,
-    courseId: id,
+    courseId: id as string,
     userId,
   });
 
@@ -144,7 +144,7 @@ const CourseReviewsTable = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

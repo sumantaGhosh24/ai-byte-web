@@ -31,7 +31,7 @@ const LessonProgressTable = () => {
   const { data, isLoading, isFetching, isError, error, refetch } = useProgresses({
     page,
     limit,
-    lessonId: id,
+    lessonId: id as string,
     userId,
     completed: completed === "all" ? undefined : completed === "completed",
   });
@@ -169,7 +169,7 @@ const LessonProgressTable = () => {
               setPage(1);
             }}
           >
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-30">
               <SelectValue placeholder="Limit" />
             </SelectTrigger>
             <SelectContent>

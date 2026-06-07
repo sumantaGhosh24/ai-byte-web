@@ -4,7 +4,7 @@ import { Skeleton } from "../ui/skeleton";
 const LessonDetailsSkeleton = () => (
   <div className="space-y-6 p-6 my-10">
     <Card className="overflow-hidden">
-      <Skeleton className="h-[350px] w-full" />
+      <Skeleton className="h-87.5 w-full" />
       <CardContent className="space-y-6 p-6">
         <div>
           <Skeleton className="h-8 w-2/5 mb-2" />
