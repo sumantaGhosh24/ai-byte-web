@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 
 const Navbar = () => {
@@ -36,7 +37,9 @@ const Navbar = () => {
             FAQ
           </a>
         </nav>
-        <Button>Get Started</Button>
+        <Button asChild>
+          <Link to="/sign-in">Get Started</Link>
+        </Button>
       </div>
     </header>
   );
